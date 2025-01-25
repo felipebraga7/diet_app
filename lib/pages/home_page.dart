@@ -1,3 +1,4 @@
+import 'package:diet_app/widgets/add_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../widgets/calendar_selector.dart';
@@ -22,6 +23,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _onAddPress() {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return AddDialog();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,14 +39,18 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: _onAddPress,
+        child: Icon(Icons.add),  
+      ),
       body: Column(
         children: [
           // Calendar Selector
           CalendarSelector(
             onDateSelected: _onDateSelected,
             initialSelectedDate: _selectedDate,
-          ),
-          // Buttons Row
+          ),          // Buttons Row
           Expanded(
             child: Center(
               child: Row(
