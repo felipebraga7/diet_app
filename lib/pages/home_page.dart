@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../widgets/calendar_selector.dart';
 import '../widgets/diet_list.dart';
+import '../widgets/diet_summary.dart';
 import '../model/food.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -50,18 +51,24 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Column(
-        children: [
-          // Calendar Selector
-          CalendarSelector(
-            onDateSelected: _onDateSelected,
-            initialSelectedDate: _selectedDate,
-          ),
-          // Diet List
-          Expanded(
-            child: DietList(foods: foods),
-          ),
-        ],
-      ),
-    );
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Calendar Selector
+            CalendarSelector(
+              onDateSelected: _onDateSelected,
+              initialSelectedDate: _selectedDate,
+            ),
+            // Diet Summary
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: DietSummary(foods: foods),
+            ),
+            // Diet List
+            Expanded(
+              child: DietList(foods: foods),
+            ),
+          ],
+        ),
+      );
   }
 }
