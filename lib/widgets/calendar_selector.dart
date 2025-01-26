@@ -1,3 +1,4 @@
+import 'package:diet_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -55,15 +56,10 @@ class _CalendarSelectorState extends State<CalendarSelector> {
               CircleAvatar(
                 radius: 25,
                 backgroundColor: _selectedDayIndex == index
-                    ? Colors.blue
-                    : Colors.grey[300],
+                    ? customSwatch.shade600
+                    : customSwatch.shade300,
                 child: Text(
                   DateFormat('d').format(date), // Day of the month
-                  style: TextStyle(
-                    color: _selectedDayIndex == index
-                        ? Colors.white
-                        : Colors.black,
-                  ),
                 ),
               ),
               const SizedBox(height: 5),
@@ -72,8 +68,8 @@ class _CalendarSelectorState extends State<CalendarSelector> {
                 style: TextStyle(
                   fontSize: 12,
                   color: _selectedDayIndex == index
-                      ? Colors.blue
-                      : Colors.black,
+                      ? customSwatch.shade600
+                      : customSwatch.shade300,
                 ),
               ),
             ],

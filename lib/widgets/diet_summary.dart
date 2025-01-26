@@ -1,3 +1,4 @@
+import 'package:diet_app/main.dart';
 import 'package:flutter/material.dart';
 import '../model/food.dart';
 
@@ -34,32 +35,28 @@ class _DietSummaryState extends State<DietSummary> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.grey[200],
+      color: customSwatch.shade300,
       elevation: 8.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildSummaryBox('Kcal', getTotalCalories(), Colors.red),
-                _buildSummaryBox('Prot', getTotalProtein(), Colors.purple, suffix: 'g'),
-                _buildSummaryBox('Carb', getTotalCarbs(), Colors.orange, suffix: 'g'),
-                _buildSummaryBox('Gord', getTotalFat(), Colors.brown, suffix: 'g'),
-              ],
-            ),
-          ],
-      ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildSummaryBox('Kcal', getTotalCalories()),
+              _buildSummaryBox('Prot', getTotalProtein(), suffix: 'g'),
+              _buildSummaryBox('Carb', getTotalCarbs(), suffix: 'g'),
+              _buildSummaryBox('Gord', getTotalFat(), suffix: 'g'),
+            ],
+          ),
+        ),
     );
   }
 
-  Widget _buildSummaryBox(String title, double value, Color color, {String suffix = ''}) {
+  Widget _buildSummaryBox(String title, double value, {String suffix = ''}) {
     return Column(
       children: [
-        Text(title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color)),
-        SizedBox(height: 5),
-        Text('${formatNumber(value)}$suffix', style: TextStyle(fontSize: 20, color: color)),
+        Text(title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        Text('${formatNumber(value)}$suffix', style: TextStyle(fontSize: 20)),
       ],
     );
   }

@@ -1,3 +1,4 @@
+import 'package:diet_app/main.dart';
 import 'package:flutter/material.dart';
 import '../model/food.dart';
 
@@ -46,43 +47,40 @@ class _DietListState extends State<DietList> {
             ),
           ),
           Expanded(
-            child: Card(
-              elevation: 8,
-              child: ListView.builder(
-                itemCount: widget.foods.length,
-                itemBuilder: (context, index) {
-                  final food = widget.foods[index];
-                  return Container(
-                    color: index % 2 == 0 ? Colors.grey[200] : Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Table(
-                        columnWidths: const {
-                          0: FlexColumnWidth(2),
-                          1: FlexColumnWidth(1),
-                          2: FlexColumnWidth(1),
-                          3: FlexColumnWidth(1),
-                          4: FlexColumnWidth(1),
-                          5: FlexColumnWidth(1),
-                        },
-                        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                        children: [
-                          TableRow(
-                            children: [
-                              Text(food.name, style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.left),
-                              Text(formatNumber(food.weight), style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                              Text(formatNumber(food.calories), style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                              Text(formatNumber(food.protein), style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                              Text(formatNumber(food.carbs), style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                              Text(formatNumber(food.fat), style: TextStyle(color: Colors.brown, fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                            ],
-                          ),
-                        ],
-                      ),
+            child: ListView.builder(
+              itemCount: widget.foods.length,
+              itemBuilder: (context, index) {
+                final food = widget.foods[index];
+                return Container(
+                  color: index % 2 == 0 ? customSwatch.shade300 : customSwatch.shade200,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Table(
+                      columnWidths: const {
+                        0: FlexColumnWidth(2),
+                        1: FlexColumnWidth(1),
+                        2: FlexColumnWidth(1),
+                        3: FlexColumnWidth(1),
+                        4: FlexColumnWidth(1),
+                        5: FlexColumnWidth(1),
+                      },
+                      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                      children: [
+                        TableRow(
+                          children: [
+                            Text(food.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.left),
+                            Text(formatNumber(food.weight), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                            Text(formatNumber(food.calories), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                            Text(formatNumber(food.protein), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                            Text(formatNumber(food.carbs), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                            Text(formatNumber(food.fat), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                          ],
+                        ),
+                      ],
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
         ],

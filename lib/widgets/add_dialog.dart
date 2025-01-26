@@ -1,3 +1,4 @@
+import 'package:diet_app/main.dart';
 import 'package:flutter/material.dart';
 
 const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
@@ -15,6 +16,7 @@ class _AddDialogState extends State<AddDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: customSwatch.shade300,
       child: Padding(
         padding: EdgeInsets.all(24),
         child: Column(
@@ -23,6 +25,10 @@ class _AddDialogState extends State<AddDialog> {
           children: [
             DropdownMenu(
               label: Text("Alimento"),
+              inputDecorationTheme: InputDecorationTheme(
+                labelStyle: TextStyle(color: Colors.white),
+                suffixIconColor: Colors.white,
+              ),
               expandedInsets: EdgeInsets.all(0),
               initialSelection: dropdownValue,
               onSelected: (String? value) {

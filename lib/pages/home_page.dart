@@ -1,3 +1,4 @@
+import 'package:diet_app/main.dart';
 import 'package:diet_app/widgets/add_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -56,12 +57,11 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     return Scaffold(
+      backgroundColor: customSwatch.shade100,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
         onPressed: _onAddPress,
         child: Icon(Icons.add),  
       ),
