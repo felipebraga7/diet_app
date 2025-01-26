@@ -17,12 +17,11 @@ class _DietListState extends State<DietList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-          child: Center(
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Center(
             child: Table(
               columnWidths: const {
                 0: FlexColumnWidth(2),
@@ -46,14 +45,9 @@ class _DietListState extends State<DietList> {
               ],
             ),
           ),
-        ),
-        Container(
-          height: 600,
-          child: Card(
-            margin: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 50.0),
-            elevation: 8.0,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+          Expanded(
+            child: Card(
+              elevation: 8,
               child: ListView.builder(
                 itemCount: widget.foods.length,
                 itemBuilder: (context, index) {
@@ -61,7 +55,7 @@ class _DietListState extends State<DietList> {
                   return Container(
                     color: index % 2 == 0 ? Colors.grey[200] : Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Table(
                         columnWidths: const {
                           0: FlexColumnWidth(2),
@@ -91,8 +85,8 @@ class _DietListState extends State<DietList> {
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

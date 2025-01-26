@@ -65,25 +65,24 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _onAddPress,
         child: Icon(Icons.add),  
       ),
-      body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Calendar Selector
-            CalendarSelector(
-              onDateSelected: _onDateSelected,
-              initialSelectedDate: _selectedDate,
-            ),
-            // Diet Summary
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: DietSummary(foods: foods),
-            ),
-            // Diet List
-            Expanded(
-              child: DietList(foods: foods),
-            ),
-          ],
-        ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 20,
+            children: [
+              // Calendar Selector
+              CalendarSelector(
+                onDateSelected: _onDateSelected,
+                initialSelectedDate: _selectedDate,
+              ),
+              // Diet Summary
+              DietSummary(foods: foods),
+              // Diet List
+              DietList(foods: foods),
+            ],
+          ),
+      ),
       );
   }
 }
