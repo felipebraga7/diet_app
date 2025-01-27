@@ -1,5 +1,5 @@
 import 'package:diet_app/main.dart';
-import 'package:diet_app/widgets/add_dialog.dart';
+import 'package:diet_app/widgets/add_food_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../widgets/calendar_selector.dart';

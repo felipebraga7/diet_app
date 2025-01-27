@@ -43,9 +43,9 @@ class _DietSummaryState extends State<DietSummary> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildSummaryBox('Kcal', getTotalCalories()),
-              _buildSummaryBox('Prot', getTotalProtein(), suffix: 'g'),
-              _buildSummaryBox('Carb', getTotalCarbs(), suffix: 'g'),
-              _buildSummaryBox('Gord', getTotalFat(), suffix: 'g'),
+              _buildSummaryBox('Prot.', getTotalProtein(), suffix: 'g'),
+              _buildSummaryBox('Carb.', getTotalCarbs(), suffix: 'g'),
+              _buildSummaryBox('Gord.', getTotalFat(), suffix: 'g'),
             ],
           ),
         ),
