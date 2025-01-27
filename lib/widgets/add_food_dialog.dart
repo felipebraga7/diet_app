@@ -1,8 +1,7 @@
 import 'package:diet_app/main.dart';
 import 'package:diet_app/model/food.dart';
 import 'package:flutter/material.dart';
-
-const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+import 'package:diet_app/util/utils.dart';
 
 class AddDialog extends StatefulWidget {
   const AddDialog({super.key});
@@ -30,7 +29,6 @@ class _AddDialogState extends State<AddDialog> {
       Food(name: 'Edamame', weight: 100, calories: 121, protein: 11, carbs: 10, fat: 5),
     ];
   Food? dropdownValue = null;
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +58,9 @@ class _AddDialogState extends State<AddDialog> {
             ),
             Row(
               children: [
-                Text(dropdownValue?.weight.toString() ?? '', style: TextStyle(fontSize: 30),),
+                Text(Utils.formatNumber(dropdownValue?.weight ?? 0), style: TextStyle(fontSize: 30)),
                 IconButton(
-                  onPressed: () {}, 
+                  onPressed: () {},
                   icon: Icon(Icons.edit, color: Colors.white)
                 )
               ],
@@ -73,25 +71,25 @@ class _AddDialogState extends State<AddDialog> {
                 Column(
                   children: [
                     Text('Kcal.', textAlign: TextAlign.center),
-                    Text(dropdownValue?.calories.toString() ?? '', textAlign: TextAlign.center),
+                    Text(Utils.formatNumber(dropdownValue?.calories ?? 0), textAlign: TextAlign.center),
                   ],
                 ),
                 Column(
                   children: [
                     Text('Prot.', textAlign: TextAlign.center),
-                    Text(dropdownValue?.protein.toString() ?? '', textAlign: TextAlign.center),
+                    Text(Utils.formatNumber(dropdownValue?.protein ?? 0), textAlign: TextAlign.center),
                   ],
                 ),
                 Column(
                   children: [
                     Text('Carb.', textAlign: TextAlign.center),
-                    Text(dropdownValue?.carbs.toString() ?? '', textAlign: TextAlign.center),
+                    Text(Utils.formatNumber(dropdownValue?.carbs ?? 0), textAlign: TextAlign.center),
                   ],
                 ),
                 Column(
                   children: [
                     Text('Gord.', textAlign: TextAlign.center),
-                    Text(dropdownValue?.fat.toString() ?? '', textAlign: TextAlign.center),
+                    Text(Utils.formatNumber(dropdownValue?.fat ?? 0), textAlign: TextAlign.center),
                   ],
                 ),
               ],
@@ -100,7 +98,6 @@ class _AddDialogState extends State<AddDialog> {
               label: Text("Adicionar"),
               onPressed: () {},
               icon: Icon(Icons.add),
-              
             )
           ],
         ),

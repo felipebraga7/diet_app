@@ -1,6 +1,7 @@
 import 'package:diet_app/main.dart';
 import 'package:flutter/material.dart';
 import '../model/food.dart';
+import 'package:diet_app/util/utils.dart';
 
 class DietSummary extends StatefulWidget {
   final List<Food> foods;
@@ -28,10 +29,6 @@ class _DietSummaryState extends State<DietSummary> {
     return widget.foods.fold(0, (sum, food) => sum + food.fat);
   }
 
-  String formatNumber(double number) {
-    return number.toStringAsFixed(number.truncateToDouble() == number ? 0 : 1);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -56,7 +53,7 @@ class _DietSummaryState extends State<DietSummary> {
     return Column(
       children: [
         Text(title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-        Text('${formatNumber(value)}$suffix', style: TextStyle(fontSize: 20)),
+        Text('${Utils.formatNumber(value)}$suffix', style: TextStyle(fontSize: 20)),
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:diet_app/main.dart';
 import 'package:flutter/material.dart';
+import 'package:diet_app/util/utils.dart';
 import '../model/food.dart';
 
 class DietList extends StatefulWidget {
@@ -12,10 +13,6 @@ class DietList extends StatefulWidget {
 }
 
 class _DietListState extends State<DietList> {
-  String formatNumber(double number) {
-    return number.toStringAsFixed(number.truncateToDouble() == number ? 0 : 1);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -69,11 +66,11 @@ class _DietListState extends State<DietList> {
                         TableRow(
                           children: [
                             Text(food.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.left),
-                            Text(formatNumber(food.weight), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                            Text(formatNumber(food.calories), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                            Text(formatNumber(food.protein), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                            Text(formatNumber(food.carbs), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                            Text(formatNumber(food.fat), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                            Text(Utils.formatNumber(food.weight), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                            Text(Utils.formatNumber(food.calories), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                            Text(Utils.formatNumber(food.protein), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                            Text(Utils.formatNumber(food.carbs), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                            Text(Utils.formatNumber(food.fat), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
                           ],
                         ),
                       ],
