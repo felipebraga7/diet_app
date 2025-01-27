@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'model/food.dart';
 import 'pages/home_page.dart';
 
 void main() async {
   await Hive.initFlutter();
-  var box = await Hive.openBox('mybox');
-  runApp(const MyApp());
+  Hive.registerAdapter(FoodAdapter());
+  await Hive.openBox<Food>('foods');
+  runApp(MyApp());
 }
 
 const int primaryColorHex = 0xFF2E4257; // Cor principal (#2E4257)
