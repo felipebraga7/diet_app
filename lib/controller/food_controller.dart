@@ -20,4 +20,9 @@ class FoodController extends GetxController {
     foodBox.add(food);
     foods.add(food);
   }
+
+  void deleteFood(Food food) {
+    foodBox.delete(food);
+    foods.remove(food);
+  }
 }
