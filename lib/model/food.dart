@@ -22,6 +22,9 @@ class Food {
   @HiveField(5)
   final double fat;
 
+  @HiveField(6)
+  final DateTime? date;
+
   Food({
     required this.name,
     required this.weight,
@@ -29,5 +32,6 @@ class Food {
     required this.protein,
     required this.carbs,
     required this.fat,
+    required this.date,
   });
 }
