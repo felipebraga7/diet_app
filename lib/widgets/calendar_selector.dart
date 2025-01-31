@@ -27,15 +27,13 @@ class _CalendarSelectorState extends State<CalendarSelector> {
     _setSelectedIndexToToday();
   }
 
-  /// Initialize week dates with today as the last day.
   void _initializeWeekDates() {
     final today = DateTime.now().toLocal();
     _weekDates = List.generate(7, (index) => today.subtract(Duration(days: 6 - index)));
   }
 
-  /// Set the selected day index to today (last circle by default).
   void _setSelectedIndexToToday() {
-    _selectedDayIndex = 6; // Always set the last circle as today initially
+    _selectedDayIndex = 6;
   }
 
   @override

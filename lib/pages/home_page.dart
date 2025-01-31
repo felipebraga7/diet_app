@@ -62,12 +62,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 foods: foodController.foods.isNotEmpty
                     ? foodController.foods
                     : [],
+                selectedDate: _selectedDate,
               )),
               // Diet List
               Obx(() => DietList(
                 foods: foodController.foods.isNotEmpty
                     ? foodController.foods
                     : [],
+                selectedDate: _selectedDate,
               )),
             ],
           ),

@@ -5,8 +5,9 @@ import '../model/food.dart';
 
 class DietList extends StatefulWidget {
   final List<Food> foods;
+  final DateTime selectedDate;
 
-  const DietList({super.key, required this.foods});
+  const DietList({super.key, required this.foods, required this.selectedDate});
 
   @override
   _DietListState createState() => _DietListState();
@@ -15,6 +16,13 @@ class DietList extends StatefulWidget {
 class _DietListState extends State<DietList> {
   @override
   Widget build(BuildContext context) {
+    final filteredFoods = widget.foods.where((food) {
+      return food.date != null &&
+          food.date!.year == widget.selectedDate.year &&
+          food.date!.month == widget.selectedDate.month &&
+          food.date!.day == widget.selectedDate.day;
+    }).toList();
+
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -45,9 +53,9 @@ class _DietListState extends State<DietList> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: widget.foods.length,
+              itemCount: filteredFoods.length,
               itemBuilder: (context, index) {
-                final food = widget.foods[index];
+                final food = filteredFoods[index];
                 return Container(
                   color: index % 2 == 0 ? customSwatch.shade300 : customSwatch.shade200,
                   child: Padding(
