@@ -51,6 +51,14 @@ class _DietListState extends State<DietList> {
               ],
             ),
           ),
+          if (filteredFoods.isEmpty)
+            Center( //formatar texto de uma maneira melhor
+              child: Text(
+                'Clique no botão abaixo para adicionar alimentos',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
+              ),
+            )
+          else
           Expanded(
             child: ListView.builder(
               itemCount: filteredFoods.length,
