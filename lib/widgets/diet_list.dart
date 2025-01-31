@@ -5,6 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../model/food.dart';
 import 'package:get/get.dart';
 import '../controller/food_controller.dart';
+import 'add_food_dialog.dart';
 
 class DietList extends StatefulWidget {
   final List<Food> foods;
@@ -18,6 +19,15 @@ class DietList extends StatefulWidget {
 
 class _DietListState extends State<DietList> {
   final FoodController foodController = Get.put(FoodController());
+
+  void _onEditPress(Food food) {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return AddDialog(editMode: true, currentFood: food);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +85,7 @@ class _DietListState extends State<DietList> {
                 final food = filteredFoods[index];
                 return Slidable(
                 endActionPane: ActionPane(
-                    motion: StretchMotion(), 
+                    motion: StretchMotion(),
                     children: [
                       SlidableAction(
                         onPressed: (BuildContext context) {
@@ -83,6 +93,13 @@ class _DietListState extends State<DietList> {
                         },
                         icon: Icons.delete,
                         backgroundColor: Colors.red,
+                      ),
+                      SlidableAction(
+                        onPressed: (BuildContext context) {
+                          _onEditPress(filteredFoods[index]);
+                        },
+                        icon: Icons.edit,
+                        backgroundColor: Colors.blue,
                       )
                     ]
                   ),

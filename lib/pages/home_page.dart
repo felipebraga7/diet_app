@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
     showDialog(
       context: context, 
       builder: (context) {
-        return AddDialog();
+        return AddDialog(editMode: false);
       },
     );
   }

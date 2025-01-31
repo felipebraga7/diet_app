@@ -6,35 +6,53 @@ import '../util/utils.dart';
 import '../controller/food_controller.dart';
 
 class AddDialog extends StatefulWidget {
-  const AddDialog({super.key});
+  final bool? editMode;
+  final Food? currentFood;
+  
+  const AddDialog({super.key, this.editMode, this.currentFood});
 
   @override
   State<AddDialog> createState() => _AddDialogState();
 }
 
 class _AddDialogState extends State<AddDialog> {
-  final FoodController foodController = Get.put(FoodController());
-  final TextEditingController weightController = TextEditingController();
-
-  final List<Food> foods = [
-    Food(name: 'Chicken Breast', weight: 200, calories: 330, protein: 62, carbs: 0, fat: 7, date: null),
-    Food(name: 'Egg', weight: 50, calories: 70, protein: 6, carbs: 0.6, fat: 5, date: null),
-    Food(name: 'Greek Yogurt', weight: 150, calories: 100, protein: 10, carbs: 4, fat: 0, date: null),
-    Food(name: 'Tofu', weight: 100, calories: 70, protein: 8, carbs: 2, fat: 4, date: null),
-    Food(name: 'Salmon', weight: 150, calories: 230, protein: 25, carbs: 0, fat: 14, date: null),
-    Food(name: 'Lentils', weight: 100, calories: 116, protein: 9, carbs: 20, fat: 0.3, date: null),
-    Food(name: 'Cottage Cheese', weight: 150, calories: 120, protein: 15, carbs: 3, fat: 5, date: null),
-    Food(name: 'Almonds', weight: 30, calories: 170, protein: 6, carbs: 6, fat: 15, date: null),
-    Food(name: 'Beef (Sirloin)', weight: 200, calories: 420, protein: 50, carbs: 0, fat: 20, date: null),
-    Food(name: 'Tuna (Canned in Water)', weight: 100, calories: 100, protein: 20, carbs: 0, fat: 1, date: null),
-    Food(name: 'Chickpeas', weight: 100, calories: 164, protein: 9, carbs: 27, fat: 2.6, date: null),
-    Food(name: 'Quinoa', weight: 100, calories: 120, protein: 4, carbs: 21, fat: 1.9, date: null),
-    Food(name: 'Turkey Breast', weight: 150, calories: 150, protein: 32, carbs: 0, fat: 2, date: null),
-    Food(name: 'Tempeh', weight: 100, calories: 195, protein: 20, carbs: 9, fat: 11, date: null),
-    Food(name: 'Edamame', weight: 100, calories: 121, protein: 11, carbs: 10, fat: 5, date: null),
-  ];
-  Food? dropdownValue = null;
+  late Food? dropdownValue;
+  late bool editMode;
   bool showWarning = false;
+  late FocusNode textInputFocous;
+
+  final FoodController foodController = Get.put(FoodController());
+  late TextEditingController weightController = TextEditingController();
+
+
+final List<Food> foods = [
+  Food(name: 'Chicken Breast', weight: 200, calories: 1.65, protein: 0.31, carbs: 0.0, fat: 0.035, date: null),
+  Food(name: 'Egg', weight: 50, calories: 1.4, protein: 0.12, carbs: 0.012, fat: 0.1, date: null),
+  Food(name: 'Greek Yogurt', weight: 150, calories: 0.6667, protein: 0.0667, carbs: 0.0267, fat: 0.0, date: null),
+  Food(name: 'Tofu', weight: 100, calories: 0.7, protein: 0.08, carbs: 0.02, fat: 0.04, date: null),
+  Food(name: 'Salmon', weight: 150, calories: 1.5333, protein: 0.1667, carbs: 0.0, fat: 0.0933, date: null),
+  Food(name: 'Lentils', weight: 100, calories: 1.16, protein: 0.09, carbs: 0.2, fat: 0.003, date: null),
+  Food(name: 'Cottage Cheese', weight: 150, calories: 0.8, protein: 0.1, carbs: 0.02, fat: 0.0333, date: null),
+  Food(name: 'Almonds', weight: 30, calories: 5.6667, protein: 0.2, carbs: 0.2, fat: 0.5, date: null),
+  Food(name: 'Beef (Sirloin)', weight: 200, calories: 2.1, protein: 0.25, carbs: 0.0, fat: 0.1, date: null),
+  Food(name: 'Tuna (Canned in Water)', weight: 100, calories: 1.0, protein: 0.2, carbs: 0.0, fat: 0.01, date: null),
+  Food(name: 'Chickpeas', weight: 100, calories: 1.64, protein: 0.09, carbs: 0.27, fat: 0.026, date: null),
+  Food(name: 'Quinoa', weight: 100, calories: 1.2, protein: 0.04, carbs: 0.21, fat: 0.019, date: null),
+  Food(name: 'Turkey Breast', weight: 150, calories: 1.0, protein: 0.2133, carbs: 0.0, fat: 0.0133, date: null),
+  Food(name: 'Tempeh', weight: 100, calories: 1.95, protein: 0.2, carbs: 0.09, fat: 0.11, date: null),
+  Food(name: 'Edamame', weight: 100, calories: 1.21, protein: 0.11, carbs: 0.1, fat: 0.05, date: null),
+];
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the state with the passed foodType
+    dropdownValue = widget.currentFood;
+    editMode = widget.editMode ?? false;
+    weightController = TextEditingController(text: widget.currentFood?.weight.toString());
+    textInputFocous = FocusNode();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,23 +61,27 @@ class _AddDialogState extends State<AddDialog> {
       child: Padding(
         padding: EdgeInsets.all(24),
         child: Column(
+          spacing: 8,
           mainAxisSize: MainAxisSize.min,
           children: [
-            DropdownMenu(
-              label: Text("Alimento"),
-              inputDecorationTheme: InputDecorationTheme(
-                labelStyle: TextStyle(color: Colors.white),
-                suffixIconColor: Colors.white,
-              ),
-              expandedInsets: EdgeInsets.all(0),
-              onSelected: (Food? value) {
+            DropdownButton<Food>(
+              hint: Text('Selecione um alimento', style: TextStyle(color: Colors.white)),
+              iconEnabledColor: Colors.white,
+              dropdownColor: customSwatch.shade300,
+              value: foods.firstWhereOrNull((element) => element.name == dropdownValue?.name),
+              isExpanded: true,
+              onChanged: (Food? value) {
                 setState(() {
                   dropdownValue = value;
                   weightController.text = value?.weight.toString() ?? '';
+                  showWarning = false;
                 });
               },
-              dropdownMenuEntries: foods.map<DropdownMenuEntry<Food>>((Food value) {
-                return DropdownMenuEntry<Food>(value: value, label: value.name);
+              items: foods.map((food) {
+                return DropdownMenuItem(
+                  value: food,
+                  child: Text(food.name),
+                );
               }).toList(),
             ),
             Row(
@@ -68,6 +90,7 @@ class _AddDialogState extends State<AddDialog> {
                   child: TextField(
                     controller: weightController,
                     keyboardType: TextInputType.number,
+                    focusNode: textInputFocous,
                     decoration: InputDecoration(
                       labelText: 'Peso (g)',
                       labelStyle: TextStyle(color: Colors.white),
@@ -78,7 +101,7 @@ class _AddDialogState extends State<AddDialog> {
                   ),
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: textInputFocous.requestFocus,
                     icon: Icon(Icons.edit, color: Colors.white)
                 )
               ],
@@ -118,7 +141,7 @@ class _AddDialogState extends State<AddDialog> {
                 style: TextStyle(color: Colors.red),
               ),
             ElevatedButton.icon(
-              label: Text("Adicionar"),
+              label: Text(editMode ? "Editar" : "Adicionar"),
               onPressed: () {
                 if (dropdownValue != null) {
                   final weight = double.tryParse(weightController.text) ?? 0;
@@ -139,7 +162,7 @@ class _AddDialogState extends State<AddDialog> {
                   });
                 }
               },
-              icon: Icon(Icons.add),
+              icon: Icon(editMode ? Icons.edit : Icons.add),
             )
           ],
         ),
