@@ -89,7 +89,7 @@ final List<Food> foods = [
                 Expanded( //não necessariamente precisa ser um Expanded
                   child: TextField(
                     controller: weightController,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
                     focusNode: textInputFocous,
                     decoration: InputDecoration(
                       labelText: 'Peso (g)',
