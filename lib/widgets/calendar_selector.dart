@@ -50,6 +50,7 @@ class _CalendarSelectorState extends State<CalendarSelector> {
             widget.onDateSelected(date);
           },
           child: Column(
+            spacing: 4,
             children: [
               CircleAvatar(
                 radius: 25,
@@ -60,7 +61,6 @@ class _CalendarSelectorState extends State<CalendarSelector> {
                   DateFormat('d').format(date), // Day of the month
                 ),
               ),
-              const SizedBox(height: 5),
               Text(
                 DateFormat('EEE').format(date), // Abbreviated weekday name
                 style: TextStyle(

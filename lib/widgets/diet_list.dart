@@ -1,7 +1,10 @@
 import 'package:diet_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:diet_app/util/utils.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import '../model/food.dart';
+import 'package:get/get.dart';
+import '../controller/food_controller.dart';
 
 class DietList extends StatefulWidget {
   final List<Food> foods;
@@ -14,6 +17,8 @@ class DietList extends StatefulWidget {
 }
 
 class _DietListState extends State<DietList> {
+  final FoodController foodController = Get.put(FoodController());
+
   @override
   Widget build(BuildContext context) {
     final filteredFoods = widget.foods.where((food) {
@@ -52,10 +57,14 @@ class _DietListState extends State<DietList> {
             ),
           ),
           if (filteredFoods.isEmpty)
-            Center( //formatar texto de uma maneira melhor
-              child: Text(
-                'Clique no botão abaixo para adicionar alimentos',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Center( //formatar texto de uma maneira melhor
+                child: Text(
+                  'Nenhum alimento adicionado',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                ),
               ),
             )
           else
@@ -64,32 +73,46 @@ class _DietListState extends State<DietList> {
               itemCount: filteredFoods.length,
               itemBuilder: (context, index) {
                 final food = filteredFoods[index];
-                return Container(
-                  color: index % 2 == 0 ? customSwatch.shade300 : customSwatch.shade200,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Table(
-                      columnWidths: const {
-                        0: FlexColumnWidth(2),
-                        1: FlexColumnWidth(1),
-                        2: FlexColumnWidth(1),
-                        3: FlexColumnWidth(1),
-                        4: FlexColumnWidth(1),
-                        5: FlexColumnWidth(1),
-                      },
-                      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                      children: [
-                        TableRow(
-                          children: [
-                            Text(food.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.left),
-                            Text(Utils.formatNumber(food.weight), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                            Text(Utils.formatNumber(food.calories), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                            Text(Utils.formatNumber(food.protein), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                            Text(Utils.formatNumber(food.carbs), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                            Text(Utils.formatNumber(food.fat), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
-                          ],
-                        ),
-                      ],
+                return Slidable(
+                endActionPane: ActionPane(
+                    motion: StretchMotion(), 
+                    children: [
+                      SlidableAction(
+                        onPressed: (BuildContext context) {
+                          foodController.deleteFood(filteredFoods[index]);
+                        },
+                        icon: Icons.delete,
+                        backgroundColor: Colors.red,
+                      )
+                    ]
+                  ),
+                  child: Container(
+                    color: index % 2 == 0 ? customSwatch.shade300 : customSwatch.shade200,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Table(
+                        columnWidths: const {
+                          0: FlexColumnWidth(2),
+                          1: FlexColumnWidth(1),
+                          2: FlexColumnWidth(1),
+                          3: FlexColumnWidth(1),
+                          4: FlexColumnWidth(1),
+                          5: FlexColumnWidth(1),
+                        },
+                        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                        children: [
+                          TableRow(
+                            children: [
+                              Text(food.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.left),
+                              Text(Utils.formatNumber(food.weight), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                              Text(Utils.formatNumber(food.calories), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                              Text(Utils.formatNumber(food.protein), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                              Text(Utils.formatNumber(food.carbs), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                              Text(Utils.formatNumber(food.fat), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
