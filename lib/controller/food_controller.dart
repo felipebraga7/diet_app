@@ -30,6 +30,7 @@ class FoodController extends GetxController {
     final index = foods.indexOf(oldFood);
     if (index != -1) {
       foods[index] = newFood;
+      foodBox.putAt(index, newFood);
       update();
     }
   }

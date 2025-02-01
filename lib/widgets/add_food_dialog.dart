@@ -167,7 +167,7 @@ final List<Food> foods = [
                     protein: dropdownValue!.protein * weight,
                     carbs: dropdownValue!.carbs * weight,
                     fat: dropdownValue!.fat * weight,
-                    date: DateTime.now(),
+                    date: editMode ? widget.currentFood!.date : DateTime.now(),
                   );
                   editMode ? foodController.updateFood(widget.currentFood!, newFood) : foodController.addFood(newFood);
                   Navigator.of(context).pop();
