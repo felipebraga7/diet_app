@@ -12,10 +12,6 @@ class FoodController extends GetxController {
     loadFoods();
   }
 
-  void loadFoods() {
-    foods.assignAll(foodBox.values.toList());
-  }
-
   void addFood(Food food) {
     foodBox.add(food);
     foods.add(food);
@@ -24,5 +20,17 @@ class FoodController extends GetxController {
   void deleteFood(Food food) {
     foodBox.delete(food);
     foods.remove(food);
+  }
+
+  void loadFoods() {
+    foods.assignAll(foodBox.values.toList());
+  }
+
+  void updateFood(Food oldFood, Food newFood) {
+    final index = foods.indexOf(oldFood);
+    if (index != -1) {
+      foods[index] = newFood;
+      update();
+    }
   }
 }

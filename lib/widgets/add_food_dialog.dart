@@ -46,11 +46,26 @@ final List<Food> foods = [
   @override
   void initState() {
     super.initState();
-    // Initialize the state with the passed foodType
-    dropdownValue = widget.currentFood;
     editMode = widget.editMode ?? false;
-    weightController = TextEditingController(text: widget.currentFood?.weight.toString());
     textInputFocous = FocusNode();
+
+    if (editMode && widget.currentFood != null) {
+      // Normalize values to prevent double multiplication
+      final food = widget.currentFood!;
+      dropdownValue = Food(
+        name: food.name,
+        weight: food.weight,
+        calories: food.calories / food.weight,
+        protein: food.protein / food.weight,
+        carbs: food.carbs / food.weight,
+        fat: food.fat / food.weight,
+        date: food.date,
+      );
+      weightController = TextEditingController(text: food.weight.toString());
+    } else {
+      dropdownValue = null;
+      weightController = TextEditingController();
+    }
   }
 
 
@@ -154,7 +169,7 @@ final List<Food> foods = [
                     fat: dropdownValue!.fat * weight,
                     date: DateTime.now(),
                   );
-                  foodController.addFood(newFood);
+                  editMode ? foodController.updateFood(widget.currentFood!, newFood) : foodController.addFood(newFood);
                   Navigator.of(context).pop();
                 } else {
                   setState(() {
