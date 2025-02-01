@@ -7,6 +7,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(FoodAdapter());
   await Hive.openBox<Food>('foods');
+  await Hive.openBox<Food>('dietFoods');
   runApp(MyApp());
 }
 

@@ -39,6 +39,7 @@ dependencies:
   get: ^4.6.5
   intl: ^0.18.0
   flutter_slidable: ^4.0.0
+  csv: ^5.0.1
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +59,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:
+    - assets/import alimentos.csv
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

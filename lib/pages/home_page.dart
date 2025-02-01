@@ -59,15 +59,15 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               // Diet Summary
               Obx(() => DietSummary(
-                foods: foodController.foods.isNotEmpty
-                    ? foodController.foods
+                foods: foodController.dietFoods.isNotEmpty
+                    ? foodController.dietFoods
                     : [],
                 selectedDate: _selectedDate,
               )),
               // Diet List
               Obx(() => DietList(
-                foods: foodController.foods.isNotEmpty
-                    ? foodController.foods
+                foods: foodController.dietFoods.isNotEmpty
+                    ? foodController.dietFoods
                     : [],
                 selectedDate: _selectedDate,
               )),

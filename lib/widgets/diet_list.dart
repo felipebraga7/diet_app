@@ -31,13 +31,12 @@ class _DietListState extends State<DietList> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredFoods = widget.foods.where((food) {
+    final filteredFoods = foodController.dietFoods.where((food) {
       return food.date != null &&
           food.date!.year == widget.selectedDate.year &&
           food.date!.month == widget.selectedDate.month &&
           food.date!.day == widget.selectedDate.day;
     }).toList();
-
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

@@ -8,7 +8,7 @@ import '../controller/food_controller.dart';
 class AddDialog extends StatefulWidget {
   final bool? editMode;
   final Food? currentFood;
-  
+
   const AddDialog({super.key, this.editMode, this.currentFood});
 
   @override
@@ -24,30 +24,14 @@ class _AddDialogState extends State<AddDialog> {
   final FoodController foodController = Get.put(FoodController());
   late TextEditingController weightController = TextEditingController();
 
-
-final List<Food> foods = [
-  Food(name: 'Chicken Breast', weight: 200, calories: 1.65, protein: 0.31, carbs: 0.0, fat: 0.035, date: null),
-  Food(name: 'Egg', weight: 50, calories: 1.4, protein: 0.12, carbs: 0.012, fat: 0.1, date: null),
-  Food(name: 'Greek Yogurt', weight: 150, calories: 0.6667, protein: 0.0667, carbs: 0.0267, fat: 0.0, date: null),
-  Food(name: 'Tofu', weight: 100, calories: 0.7, protein: 0.08, carbs: 0.02, fat: 0.04, date: null),
-  Food(name: 'Salmon', weight: 150, calories: 1.5333, protein: 0.1667, carbs: 0.0, fat: 0.0933, date: null),
-  Food(name: 'Lentils', weight: 100, calories: 1.16, protein: 0.09, carbs: 0.2, fat: 0.003, date: null),
-  Food(name: 'Cottage Cheese', weight: 150, calories: 0.8, protein: 0.1, carbs: 0.02, fat: 0.0333, date: null),
-  Food(name: 'Almonds', weight: 30, calories: 5.6667, protein: 0.2, carbs: 0.2, fat: 0.5, date: null),
-  Food(name: 'Beef (Sirloin)', weight: 200, calories: 2.1, protein: 0.25, carbs: 0.0, fat: 0.1, date: null),
-  Food(name: 'Tuna (Canned in Water)', weight: 100, calories: 1.0, protein: 0.2, carbs: 0.0, fat: 0.01, date: null),
-  Food(name: 'Chickpeas', weight: 100, calories: 1.64, protein: 0.09, carbs: 0.27, fat: 0.026, date: null),
-  Food(name: 'Quinoa', weight: 100, calories: 1.2, protein: 0.04, carbs: 0.21, fat: 0.019, date: null),
-  Food(name: 'Turkey Breast', weight: 150, calories: 1.0, protein: 0.2133, carbs: 0.0, fat: 0.0133, date: null),
-  Food(name: 'Tempeh', weight: 100, calories: 1.95, protein: 0.2, carbs: 0.09, fat: 0.11, date: null),
-  Food(name: 'Edamame', weight: 100, calories: 1.21, protein: 0.11, carbs: 0.1, fat: 0.05, date: null),
-];
+  late List<Food> foods;
 
   @override
   void initState() {
     super.initState();
     editMode = widget.editMode ?? false;
     textInputFocous = FocusNode();
+    foods = foodController.foods;
 
     if (editMode && widget.currentFood != null) {
       // Normalize values to prevent double multiplication
@@ -67,7 +51,6 @@ final List<Food> foods = [
       weightController = TextEditingController();
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +84,7 @@ final List<Food> foods = [
             ),
             Row(
               children: [
-                Expanded( //não necessariamente precisa ser um Expanded
+                Expanded(
                   child: TextField(
                     controller: weightController,
                     keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -117,8 +100,7 @@ final List<Food> foods = [
                 ),
                 IconButton(
                     onPressed: textInputFocous.requestFocus,
-                    icon: Icon(Icons.edit, color: Colors.white)
-                )
+                    icon: Icon(Icons.edit, color: Colors.white))
               ],
             ),
             Row(
@@ -169,7 +151,9 @@ final List<Food> foods = [
                     fat: dropdownValue!.fat * weight,
                     date: editMode ? widget.currentFood!.date : DateTime.now(),
                   );
-                  editMode ? foodController.updateFood(widget.currentFood!, newFood) : foodController.addFood(newFood);
+                  editMode
+                      ? foodController.updateFood(widget.currentFood!, newFood)
+                      : foodController.addFood(newFood);
                   Navigator.of(context).pop();
                 } else {
                   setState(() {
