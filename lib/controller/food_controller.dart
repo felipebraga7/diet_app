@@ -32,26 +32,28 @@ class FoodController extends GetxController {
   }
 
   void loadDietFoods() {
-    dietFoods.assignAll(dietBox.values.toList());
+    dietFoods.assignAll(dietBox.values);
   }
 
   void loadFoods() async {
-    final _rawData = await rootBundle.loadString("assets/import alimentos.csv");
-    List<List<dynamic>> _listData = const CsvToListConverter(
-        fieldDelimiter: ';').convert(_rawData);
+    if (foodBox.isEmpty) {
+      final _rawData = await rootBundle.loadString("assets/import alimentos.csv");
+      List<List<dynamic>> _listData = const CsvToListConverter(
+          fieldDelimiter: ';').convert(_rawData);
 
-    List<Food> parsedFoods = _listData.skip(1).map((e) =>
-        Food(
-          name: e[0].toString(),
-          weight: double.tryParse(e[1].toString()) ?? 0,
-          calories: double.tryParse(e[2].toString()) ?? 0,
-          protein: double.tryParse(e[3].toString()) ?? 0,
-          carbs: double.tryParse(e[4].toString()) ?? 0,
-          fat: double.tryParse(e[5].toString()) ?? 0,
-          date: DateTime.now(),
-        )).toList();
-
-    foods.assignAll(parsedFoods);
+      List<Food> parsedFoods = _listData.skip(1).map((e) =>
+          Food(
+            name: e[0].toString(),
+            weight: double.tryParse(e[1].toString()) ?? 0,
+            calories: double.tryParse(e[2].toString()) ?? 0,
+            protein: double.tryParse(e[3].toString()) ?? 0,
+            carbs: double.tryParse(e[4].toString()) ?? 0,
+            fat: double.tryParse(e[5].toString()) ?? 0,
+            date: DateTime.now(),
+          )).toList();
+      foodBox.addAll(parsedFoods);
+    }
+    foods.assignAll(foodBox.values);
   }
 
   void updateFood(Food oldFood, Food newFood) {
