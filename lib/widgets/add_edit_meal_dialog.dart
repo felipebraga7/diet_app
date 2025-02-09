@@ -5,23 +5,24 @@ import '../model/food.dart';
 import '../util/utils.dart';
 import '../controller/food_controller.dart';
 
-class AddDialog extends StatefulWidget {
+class AddEditMealDialog extends StatefulWidget {
   final bool? editMode;
-  final Food? currentFood;
+  final Food? currentMeal;
+  final DateTime date;
 
-  const AddDialog({super.key, this.editMode, this.currentFood});
+  const AddEditMealDialog({super.key, this.editMode, this.currentMeal, required this.date});
 
   @override
-  State<AddDialog> createState() => _AddDialogState();
+  State<AddEditMealDialog> createState() => _AddEditMealDialogState();
 }
 
-class _AddDialogState extends State<AddDialog> {
+class _AddEditMealDialogState extends State<AddEditMealDialog> {
   late Food? dropdownValue;
   late bool editMode;
   bool showWarning = false;
   late FocusNode textInputFocous;
 
-  final FoodController foodController = Get.put(FoodController());
+  final FoodController c = Get.put(FoodController());
   late TextEditingController weightController = TextEditingController();
 
   late List<Food> foods;
@@ -31,11 +32,11 @@ class _AddDialogState extends State<AddDialog> {
     super.initState();
     editMode = widget.editMode ?? false;
     textInputFocous = FocusNode();
-    foods = foodController.foods;
+    foods = c.foods;
 
-    if (editMode && widget.currentFood != null) {
+    if (editMode && widget.currentMeal != null) {
       // Normalize values to prevent double multiplication
-      final food = widget.currentFood!;
+      final food = widget.currentMeal!;
       dropdownValue = Food(
         name: food.name,
         weight: food.weight,
@@ -106,30 +107,10 @@ class _AddDialogState extends State<AddDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  children: [
-                    Text('Kcal.', textAlign: TextAlign.center),
-                    Text(Utils.formatNumber((dropdownValue?.calories ?? 0) * (double.tryParse(weightController.text) ?? 0)), textAlign: TextAlign.center),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text('Prot.', textAlign: TextAlign.center),
-                    Text(Utils.formatNumber((dropdownValue?.protein ?? 0) * (double.tryParse(weightController.text) ?? 0)), textAlign: TextAlign.center),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text('Carb.', textAlign: TextAlign.center),
-                    Text(Utils.formatNumber((dropdownValue?.carbs ?? 0) * (double.tryParse(weightController.text) ?? 0)), textAlign: TextAlign.center),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text('Gord.', textAlign: TextAlign.center),
-                    Text(Utils.formatNumber((dropdownValue?.fat ?? 0) * (double.tryParse(weightController.text) ?? 0)), textAlign: TextAlign.center),
-                  ],
-                ),
+                _buildNutrientColumn('Kcal.', dropdownValue?.calories ?? 0, weightController.text),
+                _buildNutrientColumn('Prot.', dropdownValue?.protein ?? 0, weightController.text),
+                _buildNutrientColumn('Carb.', dropdownValue?.carbs ?? 0, weightController.text),
+                _buildNutrientColumn('Gord.', dropdownValue?.fat ?? 0, weightController.text),
               ],
             ),
             if (showWarning)
@@ -142,18 +123,18 @@ class _AddDialogState extends State<AddDialog> {
               onPressed: () {
                 if (dropdownValue != null) {
                   final weight = double.tryParse(weightController.text) ?? 0;
-                  final newFood = Food(
+                  final newMeal = Food(
                     name: dropdownValue!.name,
                     weight: weight,
                     calories: dropdownValue!.calories * weight,
                     protein: dropdownValue!.protein * weight,
                     carbs: dropdownValue!.carbs * weight,
                     fat: dropdownValue!.fat * weight,
-                    date: editMode ? widget.currentFood!.date : DateTime.now(),
+                    date: editMode ? widget.currentMeal!.date : widget.date,
                   );
                   editMode
-                      ? foodController.updateFood(widget.currentFood!, newFood)
-                      : foodController.addFood(newFood);
+                      ? c.editMeal(widget.currentMeal!, newMeal)
+                      : c.addMeal(newMeal);
                   Navigator.of(context).pop();
                 } else {
                   setState(() {
@@ -166,6 +147,15 @@ class _AddDialogState extends State<AddDialog> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildNutrientColumn(String label, double nutrientValue, String weightText) {
+    return Column(
+      children: [
+        Text(label, textAlign: TextAlign.center),
+        Text(Utils.formatNumber(nutrientValue * (double.tryParse(weightText) ?? 0)), textAlign: TextAlign.center),
+      ],
     );
   }
 }

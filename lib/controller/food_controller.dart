@@ -6,33 +6,61 @@ import '../model/food.dart';
 
 class FoodController extends GetxController {
   var foods = <Food>[].obs; // List of all foods from CSV
-  var dietFoods = <Food>[].obs; // List of foods added to the diet
+  var meals = <Food>[].obs; // List of meals
   final Box<Food> foodBox = Hive.box<Food>('foods');
-  final Box<Food> dietBox = Hive.box<Food>('dietFoods');
+  final Box<Food> mealBox = Hive.box<Food>('meals');
+  DateTime selectedDate = DateTime.now();
+  Food? selectedFood;
+  double calories = 0;
+  double protein = 0;
+  double carbs = 0;
+  double fat = 0;
 
   @override
   void onInit() {
     super.onInit();
     loadFoods();
-    loadDietFoods();
+    loadMeals(DateTime.now());
   }
 
-  void addFood(Food food) {
-    dietFoods.add(food);
-    dietBox.add(food);
+  void addMeal(Food food) {
+    meals.add(food);
+    mealBox.add(food);
+    update();
   }
 
-  void deleteFood(Food food) {
-    final key = dietBox.keys.firstWhere((k) => dietBox.get(k) == food,
+  void deleteMeal(Food food) {
+    final key = mealBox.keys.firstWhere((k) => mealBox.get(k) == food,
         orElse: () => null);
     if (key != null) {
-      dietBox.delete(key);
-      dietFoods.remove(food);
+      mealBox.delete(key);
+      meals.remove(food);
+    }
+    update();
+  }
+
+  void editMeal(Food oldMeal, Food newMeal) {
+    final key = mealBox.keys.firstWhere((k) => mealBox.get(k) == oldMeal,
+        orElse: () => null);
+    if (key != null) {
+      mealBox.put(key, newMeal);
+      final index = meals.indexOf(oldMeal);
+      if (index != -1) {
+        meals[index] = newMeal;
+        update();
+      }
     }
   }
 
-  void loadDietFoods() {
-    dietFoods.assignAll(dietBox.values);
+  void loadMeals(DateTime selectedDate) {
+    meals.assignAll(
+        mealBox.values.where((food) {
+          return food.date != null &&
+              food.date!.year == selectedDate.year &&
+              food.date!.month == selectedDate.month &&
+              food.date!.day == selectedDate.day;
+        }).toList());
+    update();
   }
 
   void loadFoods() async {
@@ -54,18 +82,11 @@ class FoodController extends GetxController {
       foodBox.addAll(parsedFoods);
     }
     foods.assignAll(foodBox.values);
+    update();
   }
 
-  void updateFood(Food oldFood, Food newFood) {
-    final key = dietBox.keys.firstWhere((k) => dietBox.get(k) == oldFood,
-        orElse: () => null);
-    if (key != null) {
-      dietBox.put(key, newFood);
-      final index = dietFoods.indexOf(oldFood);
-      if (index != -1) {
-        dietFoods[index] = newFood;
-        update();
-      }
-    }
+  void updateSelectedDate(DateTime date) {
+    selectedDate = date;
+    loadMeals(date);
   }
 }

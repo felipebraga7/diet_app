@@ -1,36 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../main.dart';
-import '../widgets/add_food_dialog.dart';
+import '../widgets/add_edit_meal_dialog.dart';
 import '../widgets/calendar_selector.dart';
-import '../widgets/diet_list.dart';
-import '../widgets/diet_summary.dart';
+import '../widgets/meal_list.dart';
+import '../widgets/meal_summary.dart';
 import '../controller/food_controller.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class MyHomePage extends StatelessWidget {
+  MyHomePage({super.key});
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   final FoodController foodController = Get.put(FoodController());
-  DateTime _selectedDate = DateTime.now();
-
-  void _onDateSelected(DateTime date) {
-    setState(() {
-      _selectedDate = date;
-    });
-  }
 
   void _onAddPress() {
     showDialog(
-      context: context, 
+      context: Get.context!,
       builder: (context) {
-        return AddDialog(editMode: false);
+        return GetBuilder<FoodController>(
+          builder: (c) {
+            return AddEditMealDialog(
+              editMode: false,
+              date: c.selectedDate,
+            );
+          },
+        );
       },
     );
   }
@@ -40,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: customSwatch.shade100,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Diet App'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _onAddPress,
@@ -49,30 +42,22 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 20,
-            children: [
-              // Calendar Selector
-              CalendarSelector(
-                onDateSelected: _onDateSelected,
-                initialSelectedDate: _selectedDate,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 20,
+          children: [
+            GetBuilder<FoodController>(
+              builder: (c) => CalendarSelector(
+                onDateSelected: (date) => c.updateSelectedDate(date),
               ),
-              // Diet Summary
-              Obx(() => DietSummary(
-                foods: foodController.dietFoods.isNotEmpty
-                    ? foodController.dietFoods
-                    : [],
-                selectedDate: _selectedDate,
-              )),
-              // Diet List
-              Obx(() => DietList(
-                foods: foodController.dietFoods.isNotEmpty
-                    ? foodController.dietFoods
-                    : [],
-                selectedDate: _selectedDate,
-              )),
-            ],
-          ),
+            ),
+            GetBuilder<FoodController>(
+              builder: (c) => MealSummary(meals: c.meals),
+            ),
+            GetBuilder<FoodController>(
+              builder: (c) => MealList(meals: c.meals),
+            ),
+          ],
+        ),
       ),
     );
   }

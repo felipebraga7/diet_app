@@ -1,79 +1,55 @@
-import 'package:diet_app/main.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get.dart';
+import '../controller/calendar_controller.dart';
+import '../main.dart';
 
-class CalendarSelector extends StatefulWidget {
-  final DateTime initialSelectedDate;
+class CalendarSelector extends StatelessWidget {
   final Function(DateTime) onDateSelected;
 
-  const CalendarSelector({
-    super.key,
-    required this.initialSelectedDate,
-    required this.onDateSelected,
-  });
+  CalendarSelector({super.key, required this.onDateSelected});
 
-  @override
-  State<CalendarSelector> createState() => _CalendarSelectorState();
-}
-
-class _CalendarSelectorState extends State<CalendarSelector> {
-  late List<DateTime> _weekDates;
-  late int _selectedDayIndex;
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeWeekDates();
-    _setSelectedIndexToToday();
-  }
-
-  void _initializeWeekDates() {
-    final today = DateTime.now().toLocal();
-    _weekDates = List.generate(7, (index) => today.subtract(Duration(days: 6 - index)));
-  }
-
-  void _setSelectedIndexToToday() {
-    _selectedDayIndex = 6;
-  }
+  final CalendarController calendarController = Get.put(CalendarController());
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: List.generate(7, (index) {
-        final date = _weekDates[index];
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              _selectedDayIndex = index;
-            });
-            widget.onDateSelected(date);
-          },
-          child: Column(
-            spacing: 4,
-            children: [
-              CircleAvatar(
-                radius: 25,
-                backgroundColor: _selectedDayIndex == index
-                    ? customSwatch.shade600
-                    : customSwatch.shade300,
-                child: Text(
-                  DateFormat('d').format(date), // Day of the month
-                ),
+    return GetBuilder<CalendarController>(
+      builder: (c) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: List.generate(7, (index) {
+            final date = c.weekDates[index];
+            return GestureDetector(
+              onTap: () {
+                c.selectDate(index);
+                onDateSelected(date);
+              },
+              child: Column(
+                spacing: 4,
+                children: [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: c.selectedDayIndex == index
+                        ? customSwatch.shade600
+                        : customSwatch.shade300,
+                    child: Text(
+                      c.getDay(index),
+                    ),
+                  ),
+                  Text(
+                    c.getWeekday(index),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: c.selectedDayIndex == index
+                          ? customSwatch.shade600
+                          : customSwatch.shade300,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                DateFormat('EEE').format(date), // Abbreviated weekday name
-                style: TextStyle(
-                  fontSize: 12,
-                  color: _selectedDayIndex == index
-                      ? customSwatch.shade600
-                      : customSwatch.shade300,
-                ),
-              ),
-            ],
-          ),
+            );
+          }),
         );
-      }),
+      },
     );
   }
 }
