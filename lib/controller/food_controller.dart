@@ -79,6 +79,7 @@ class FoodController extends GetxController {
             fat: double.tryParse(e[5].toString()) ?? 0,
             date: DateTime.now(),
           )).toList();
+      parsedFoods.sort((a, b) => a.name.compareTo(b.name));
       foodBox.addAll(parsedFoods);
     }
     foods.assignAll(foodBox.values);
