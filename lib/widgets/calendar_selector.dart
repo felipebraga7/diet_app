@@ -29,8 +29,8 @@ class CalendarSelector extends StatelessWidget {
                   CircleAvatar(
                     radius: 25,
                     backgroundColor: c.selectedDayIndex == index
-                        ? customSwatch.shade600
-                        : customSwatch.shade300,
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.secondary,
                     child: Text(
                       c.getDay(index),
                     ),
@@ -40,8 +40,8 @@ class CalendarSelector extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 12,
                       color: c.selectedDayIndex == index
-                          ? customSwatch.shade600
-                          : customSwatch.shade300,
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.secondary,
                     ),
                   ),
                 ],
