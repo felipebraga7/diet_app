@@ -31,7 +31,6 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: customSwatch.shade100,
       appBar: AppBar(
         title: Text('Diet App'),
       ),

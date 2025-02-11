@@ -95,7 +95,7 @@ class MealList extends StatelessWidget {
                           ],
                         ),
                         child: Container(
-                          color: index % 2 == 0 ? customSwatch.shade300 : customSwatch.shade200,
+                          color: index % 2 == 0 ? Theme.of(context).colorScheme.secondary : Colors.white,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Table(

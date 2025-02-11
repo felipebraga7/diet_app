@@ -56,7 +56,6 @@ class _AddEditMealDialogState extends State<AddEditMealDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: customSwatch.shade300,
       child: Padding(
         padding: EdgeInsets.all(24),
         child: Column(
@@ -64,9 +63,7 @@ class _AddEditMealDialogState extends State<AddEditMealDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             DropdownButton<Food>(
-              hint: Text('Selecione um alimento', style: TextStyle(color: Colors.white)),
-              iconEnabledColor: Colors.white,
-              dropdownColor: customSwatch.shade300,
+              hint: Text('Selecione um alimento'),
               value: foods.firstWhereOrNull((element) => element.name == dropdownValue?.name),
               isExpanded: true,
               onChanged: (Food? value) {
@@ -92,7 +89,6 @@ class _AddEditMealDialogState extends State<AddEditMealDialog> {
                     focusNode: textInputFocous,
                     decoration: InputDecoration(
                       labelText: 'Peso (g)',
-                      labelStyle: TextStyle(color: Colors.white),
                     ),
                     onChanged: (text) {
                       setState(() {});
@@ -101,7 +97,7 @@ class _AddEditMealDialogState extends State<AddEditMealDialog> {
                 ),
                 IconButton(
                     onPressed: textInputFocous.requestFocus,
-                    icon: Icon(Icons.edit, color: Colors.white))
+                    icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.primary))
               ],
             ),
             Row(
@@ -116,7 +112,7 @@ class _AddEditMealDialogState extends State<AddEditMealDialog> {
             if (showWarning)
               Text(
                 'Nenhum alimento selecionado',
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
               ),
             ElevatedButton.icon(
               label: Text(editMode ? "Editar" : "Adicionar"),
