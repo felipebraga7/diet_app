@@ -1,147 +1,78 @@
+import 'package:diet_app/controller/meal_controller.dart';
+import 'package:diet_app/model/meal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../main.dart';
+
+import '../controller/food_controller.dart';
 import '../model/food.dart';
 import '../util/utils.dart';
-import '../controller/food_controller.dart';
 
-class AddEditMealDialog extends StatefulWidget {
-  final bool? editMode;
-  final Food? currentMeal;
-  final DateTime date;
+class AddEditMealDialog extends StatelessWidget {
+  final Meal meal;
 
-  const AddEditMealDialog({super.key, this.editMode, this.currentMeal, required this.date});
-
-  @override
-  State<AddEditMealDialog> createState() => _AddEditMealDialogState();
-}
-
-class _AddEditMealDialogState extends State<AddEditMealDialog> {
-  late Food? dropdownValue;
-  late bool editMode;
-  bool showWarning = false;
-  late FocusNode textInputFocous;
-
-  final FoodController c = Get.put(FoodController());
-  late TextEditingController weightController = TextEditingController();
-
-  late List<Food> foods;
-
-  @override
-  void initState() {
-    super.initState();
-    editMode = widget.editMode ?? false;
-    textInputFocous = FocusNode();
-    foods = c.foods;
-
-    if (editMode && widget.currentMeal != null) {
-      // Normalize values to prevent double multiplication
-      final food = widget.currentMeal!;
-      dropdownValue = Food(
-        name: food.name,
-        weight: food.weight,
-        calories: food.calories / food.weight,
-        protein: food.protein / food.weight,
-        carbs: food.carbs / food.weight,
-        fat: food.fat / food.weight,
-        date: food.date,
-      );
-      weightController = TextEditingController(text: food.weight.toString());
-    } else {
-      dropdownValue = null;
-      weightController = TextEditingController();
-    }
-  }
+  const AddEditMealDialog({required this.meal, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       child: Padding(
         padding: EdgeInsets.all(24),
-        child: Column(
-          spacing: 8,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            DropdownButton<Food>(
-              hint: Text('Selecione um alimento'),
-              value: foods.firstWhereOrNull((element) => element.name == dropdownValue?.name),
-              isExpanded: true,
-              onChanged: (Food? value) {
-                setState(() {
-                  dropdownValue = value;
-                  weightController.text = value?.weight.toString() ?? '';
-                  showWarning = false;
-                });
-              },
-              items: foods.map((food) {
-                return DropdownMenuItem(
-                  value: food,
-                  child: Text(food.name),
-                );
-              }).toList(),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: weightController,
-                    keyboardType: TextInputType.numberWithOptions(decimal: true),
-                    focusNode: textInputFocous,
-                    decoration: InputDecoration(
-                      labelText: 'Peso (g)',
-                    ),
-                    onChanged: (text) {
-                      setState(() {});
-                    },
-                  ),
-                ),
-                IconButton(
-                    onPressed: textInputFocous.requestFocus,
-                    icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.primary))
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildNutrientColumn('Kcal.', dropdownValue?.calories ?? 0, weightController.text),
-                _buildNutrientColumn('Prot.', dropdownValue?.protein ?? 0, weightController.text),
-                _buildNutrientColumn('Carb.', dropdownValue?.carbs ?? 0, weightController.text),
-                _buildNutrientColumn('Gord.', dropdownValue?.fat ?? 0, weightController.text),
-              ],
-            ),
-            if (showWarning)
-              Text(
-                'Nenhum alimento selecionado',
-                style: TextStyle(color: Theme.of(context).colorScheme.error),
-              ),
-            ElevatedButton.icon(
-              label: Text(editMode ? "Editar" : "Adicionar"),
-              onPressed: () {
-                if (dropdownValue != null) {
-                  final weight = double.tryParse(weightController.text) ?? 0;
-                  final newMeal = Food(
-                    name: dropdownValue!.name,
-                    weight: weight,
-                    calories: dropdownValue!.calories * weight,
-                    protein: dropdownValue!.protein * weight,
-                    carbs: dropdownValue!.carbs * weight,
-                    fat: dropdownValue!.fat * weight,
-                    date: editMode ? widget.currentMeal!.date : widget.date,
-                  );
-                  editMode
-                      ? c.editMeal(widget.currentMeal!, newMeal)
-                      : c.addMeal(newMeal);
-                  Navigator.of(context).pop();
-                } else {
-                  setState(() {
-                    showWarning = true;
-                  });
-                }
-              },
-              icon: Icon(editMode ? Icons.edit : Icons.add),
-            )
-          ],
-        ),
+        child: GetBuilder<FoodController>(
+            init: FoodController(),
+            builder: (c) {
+              return !c.foodsLoaded
+                  ? CircularProgressIndicator()
+                  : Column(
+                      spacing: 8,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        DropdownButton<Food>(
+                          hint: Text('Selecione um alimento'),
+                          value: c.selectedFood,
+                          isExpanded: true,
+                          onChanged: (Food? value) {
+                            c.setSelectedFood(value);},
+                          items: c.foods.map((food) {
+                            return DropdownMenuItem(
+                              value: food,
+                              child: Text(food.name),
+                            );
+                          }).toList(),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: c.weightController,
+                                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                decoration: InputDecoration(
+                                  labelText: 'Peso (g)',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildNutrientColumn('Kcal.', c.selectedFood?.caloriesPerUnit ?? 0, c.weightController.text),
+                            _buildNutrientColumn('Prot.', c.selectedFood?.proteinPerUnit ?? 0, c.weightController.text),
+                            _buildNutrientColumn('Carb.', c.selectedFood?.carbsPerUnit ?? 0, c.weightController.text),
+                            _buildNutrientColumn('Gord.', c.selectedFood?.fatPerUnit ?? 0, c.weightController.text),
+                          ],
+                        ),
+                        ElevatedButton.icon(
+                          label: Text("Adicionar"),
+                          onPressed: () {
+                            c.addFoodToMeal(meal.id);
+                            Get.find<MealController>().update();
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(Icons.add),
+                        )
+                      ],
+                    );
+            }),
       ),
     );
   }
