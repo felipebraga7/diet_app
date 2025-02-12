@@ -7,11 +7,6 @@ class MealController extends GetxController {
   final List<Meal> mealList = [];
   bool mealListLoaded = false;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   void updateSelectedDate(DateTime date) {
     loadMeals(date);
   }

@@ -64,7 +64,7 @@ class AddEditMealDialog extends StatelessWidget {
                         ElevatedButton.icon(
                           label: Text("Adicionar"),
                           onPressed: () {
-                            c.addFoodToMeal(meal.id);
+                            c.addFoodEventToMeal(meal.id);
                             Get.find<MealController>().update();
                             Navigator.of(context).pop();
                           },

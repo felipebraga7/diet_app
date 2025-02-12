@@ -46,7 +46,7 @@ class FoodController extends GetxController {
     update();
   }
 
-  void addFoodToMeal(String mealId) {
+  void addFoodEventToMeal(String mealId) {
     if (selectedFood != null) {
       final weight = double.tryParse(weightController.text) ?? 0;
       final foodEvent = FoodEvent(
