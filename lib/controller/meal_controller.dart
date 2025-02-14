@@ -1,11 +1,20 @@
+import 'package:diet_app/controller/bottom_menu_controller.dart';
 import 'package:diet_app/model/food_event.dart';
 import 'package:diet_app/model/meal.dart';
 import 'package:diet_app/model/meal_category_enum.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class MealController extends GetxController {
   final List<Meal> mealList = [];
   bool mealListLoaded = false;
+  late ScrollController scrollController;
+
+  @override
+  void onInit() {
+    super.onInit();
+    scrollController = Get.put(BottomMenuController()).scrollController;
+  }
 
   void updateSelectedDate(DateTime date) {
     loadMeals(date);
@@ -59,6 +68,18 @@ class MealController extends GetxController {
       foodEventList: [],
       dateTime: DateTime(1970, 1, 1, 19, 30),
       calGoal: 600,
+    ));
+    defaultMeals.add(Meal(
+      mealCategory: MealCategoryEnum.ceia,
+      foodEventList: [],
+      dateTime: DateTime(1970, 1, 1, 22, 0),
+      calGoal: 150,
+    ));
+    defaultMeals.add(Meal(
+      mealCategory: MealCategoryEnum.ceia,
+      foodEventList: [],
+      dateTime: DateTime(1970, 1, 1, 22, 0),
+      calGoal: 150,
     ));
     defaultMeals.add(Meal(
       mealCategory: MealCategoryEnum.ceia,

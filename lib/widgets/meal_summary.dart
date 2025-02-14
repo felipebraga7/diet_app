@@ -21,7 +21,6 @@ class MealSummary extends StatelessWidget {
                 return CircularProgressIndicator();
               }
               var calGoal = _getTotalCaloriesGoal(c.mealList);
-              debugPrint('calGoal - $calGoal');
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

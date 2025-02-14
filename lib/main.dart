@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: AppTheme.light,
       darkTheme: AppTheme.light,
-      home: MyHomePage(),
+      home: DiaryPage(),
     );
   }
 }

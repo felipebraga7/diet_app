@@ -88,9 +88,7 @@ class MealDetail extends StatelessWidget {
     var colorScheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () async {
-        debugPrint('antes de ir');
-        debugPrint(meal.foodEventList.length.toString());
-        var returnValue = await showDialog(
+        await showDialog(
           context: context,
           builder: (context) {
             return AddEditMealDialog(
@@ -98,8 +96,6 @@ class MealDetail extends StatelessWidget {
             );
           },
         );
-        debugPrint('retornou dialog $returnValue');
-        debugPrint(meal.foodEventList.length.toString());
       },
       child: Container(
         width: 40,

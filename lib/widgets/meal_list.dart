@@ -16,6 +16,7 @@ class MealList extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 0),
               child: ListView.separated(
+                controller: c.scrollController,
                   padding: EdgeInsets.symmetric(vertical: 10),
                   itemBuilder: (ctx, i) => MealDetail(c.mealList[i]),
                   separatorBuilder: (ctx, _) => SimpleDivider(
