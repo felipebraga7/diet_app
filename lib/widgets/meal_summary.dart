@@ -13,56 +13,56 @@ class MealSummary extends StatelessWidget {
     var textTheme = Theme.of(context).textTheme;
     return Card(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+        padding: const EdgeInsets.all(20),
         child: GetBuilder<MealController>(
-            init: MealController(),
-            builder: (c) {
-              if (!c.mealListLoaded) {
-                return CircularProgressIndicator();
-              }
-              var calGoal = _getTotalCaloriesGoal(c.mealList);
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: CircularProgressIndicator(
-                          value: calGoal == 0 ? 0 : (_getTotalCalories(c.mealList) / calGoal),
-                          strokeWidth: 8,
-                          valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
-                          backgroundColor: colorScheme.secondary,
-                        ),
+          init: MealController(),
+          builder: (c) {
+            if (!c.mealListLoaded) {
+              return CircularProgressIndicator();
+            }
+            var calGoal = _getTotalCaloriesGoal(c.mealList);
+            return Row(
+              children: [
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SizedBox(
+                      height: 120,
+                      width: 120,
+                      child: CircularProgressIndicator(
+                        value: calGoal == 0 ? 0 : (_getTotalCalories(c.mealList) / calGoal),
+                        strokeWidth: 10,
+                        valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
+                        backgroundColor: colorScheme.secondary,
+                        strokeCap: StrokeCap.round,
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(_getTotalCalories(c.mealList).toStringAsFixed(0), style: textTheme.headlineMedium),
-                          Text(
-                            'Calorias',
-                            style: textTheme.labelMedium,
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    ),
+                    Column(
+                      children: [
+                        Text(_getTotalCalories(c.mealList).toStringAsFixed(0), style: textTheme.headlineLarge),
+                        Text(
+                          'Calorias',
+                          style: textTheme.labelMedium,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildMacroSummary(context, 'Carboidratos', _getTotalCarbs(c.mealList), 200),
                       _buildMacroSummary(context, 'Proteína', _getTotalProtein(c.mealList), 200),
                       _buildMacroSummary(context, 'Gordura', _getTotalFat(c.mealList), 200)
                     ],
-                  )
-                ],
-              );
-            }),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -70,24 +70,55 @@ class MealSummary extends StatelessWidget {
   Widget _buildMacroSummary(BuildContext context, String title, double value, double goal) {
     var colorScheme = Theme.of(context).colorScheme;
     var textTheme = Theme.of(context).textTheme;
-    return SizedBox(
-      width: 95,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    double percentage = (value / goal).clamp(0.0, 1.0);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: textTheme.labelMedium),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: SizedBox(
-              height: 4,
-              child: LinearProgressIndicator(
-                value: goal == 0 ? 0 : (value / goal),
-                backgroundColor: colorScheme.secondary,
-                valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
-              ),
+          Text(
+            title,
+            style: textTheme.bodyLarge?.copyWith(
+              color: colorScheme.onSurface,
             ),
           ),
-          Text('${value.toStringAsFixed(0)}/${goal.toStringAsFixed(0)}', style: textTheme.headlineSmall),
+          Row(
+            children: [
+              Text(
+                '${(percentage * 100).toStringAsFixed(0)}%',
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface,
+                ),
+              ),
+              const SizedBox(width: 5),
+              Container(
+                width: 55,
+                height: 8,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: colorScheme.secondary.withOpacity(0.3),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: LinearProgressIndicator(
+                    value: percentage,
+                    backgroundColor: Colors.transparent,
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(colorScheme.primary),
+                    minHeight: 8,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 5),
+              Text(
+                '${value.toStringAsFixed(0)} g',
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
