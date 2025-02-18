@@ -11,13 +11,17 @@ final lightTheme = ThemeData(
     inverseSurface: Colors.black,
   ),
   textTheme: TextTheme(
-    titleLarge: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.black),
-    labelMedium: TextStyle(fontSize: 14, color: Colors.blueGrey),
-    labelSmall: TextStyle(fontSize: 12, color: Colors.blueGrey),
-    headlineMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
-    headlineSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black)
-  ),
-
+      titleLarge: TextStyle(
+          fontSize: 26, fontWeight: FontWeight.bold, color: Colors.black),
+      titleMedium: TextStyle(
+          fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+      labelLarge: TextStyle(fontSize: 18, color: Colors.blueGrey),
+      labelMedium: TextStyle(fontSize: 14, color: Colors.blueGrey),
+      labelSmall: TextStyle(fontSize: 12, color: Colors.blueGrey),
+      headlineMedium: TextStyle(
+          fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+      headlineSmall: TextStyle(
+          fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black)),
   cardTheme: CardTheme(
     color: Colors.white,
     shadowColor: Colors.black26,
@@ -25,5 +29,4 @@ final lightTheme = ThemeData(
     margin: EdgeInsets.zero,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
   ),
-
 );

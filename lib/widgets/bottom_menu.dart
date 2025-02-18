@@ -1,5 +1,6 @@
 import 'package:diet_app/controller/bottom_menu_controller.dart';
 import 'package:diet_app/model/navigation_options_enum.dart';
+import 'package:diet_app/pages/choose_meal_bottom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -87,9 +88,17 @@ class _BottomMenuState extends State<BottomMenu> with SingleTickerProviderStateM
                           child: FloatingActionButton(
                               backgroundColor: colorScheme.surface,
                               elevation: 0,
-                              onPressed: () => debugPrint("add foodevent clicked"),
-                              shape: RoundedRectangleBorder(side: BorderSide(width: 3, color: colorScheme.primary), borderRadius: BorderRadius.circular(100)),
-                              child: Icon(Icons.add, color: colorScheme.primary))),
+                              onPressed: () =>
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return ChooseMealBottomDialog();
+                                      }),
+                              shape: RoundedRectangleBorder(side: BorderSide(
+                                  width: 3, color: colorScheme.primary),
+                                  borderRadius: BorderRadius.circular(100)),
+                              child: Icon(
+                                  Icons.add, color: colorScheme.primary))),
                     )
                   ],
                 ),

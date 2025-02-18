@@ -105,7 +105,7 @@ class MealDetail extends StatelessWidget {
           color: colorScheme.onPrimary,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.3),
+              color: colorScheme.inverseSurface.withValues(alpha: 0.3),
               spreadRadius: 2,
               blurRadius: 5,
               offset: const Offset(0, 3),
