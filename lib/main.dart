@@ -1,8 +1,8 @@
 import 'package:diet_app/core/app_theme.dart';
+import 'package:diet_app/pages/create_food_page.dart';
+import 'package:diet_app/pages/food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'pages/home_page.dart';
 
 void main() async {
   runApp(MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: AppTheme.light,
       darkTheme: AppTheme.light,
-      home: DiaryPage(),
+      home: FoodPage(),
     );
   }
 }

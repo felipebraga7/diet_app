@@ -2,7 +2,7 @@ import 'package:diet_app/model/navigation_options_enum.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class BottomMenuController extends GetxController {
+class BottomBarController extends GetxController {
   ScrollController scrollController = ScrollController();
   NavigationOptionsEnum selectedOption = NavigationOptionsEnum.diary;
 

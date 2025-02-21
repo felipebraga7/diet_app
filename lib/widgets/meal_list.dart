@@ -1,3 +1,4 @@
+import 'package:diet_app/controller/bottom_menu_controller.dart';
 import 'package:diet_app/controller/meal_controller.dart';
 import 'package:diet_app/widgets/meal_detail.dart';
 import 'package:diet_app/widgets/simple_divider.dart';
@@ -16,7 +17,7 @@ class MealList extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 0),
               child: ListView.separated(
-                controller: c.scrollController,
+                controller: Get.put(BottomBarController()).scrollController,
                   padding: EdgeInsets.symmetric(vertical: 10),
                   itemBuilder: (ctx, i) => MealDetail(c.mealList[i]),
                   separatorBuilder: (ctx, _) => SimpleDivider(

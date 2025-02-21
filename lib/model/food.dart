@@ -19,4 +19,20 @@ class Food {
   }) {
     id = Uuid().v4();
   }
+
+  String getPortionCalories() {
+    return (caloriesPerUnit * standardQuantity).toStringAsFixed(2);
+  }
+
+  String getPortionCarbs() {
+    return (carbsPerUnit * standardQuantity).toStringAsFixed(2);
+  }
+
+  String getPortionProtein() {
+    return (proteinPerUnit * standardQuantity).toStringAsFixed(2);
+  }
+
+  String getPortionFat() {
+    return (fatPerUnit * standardQuantity).toStringAsFixed(2);
+  }
 }

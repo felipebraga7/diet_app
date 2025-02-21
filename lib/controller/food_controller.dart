@@ -7,10 +7,13 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class FoodController extends GetxController {
-  final List<Food> foods = [];
+  final List<Food> foodList = [];
+  List<Food> filteredFoodList = [];
   Food? selectedFood;
   bool foodsLoaded = false;
   final weightController = TextEditingController();
+  final searchTextController = TextEditingController();
+  String? searchText;
 
   @override
   void onInit() async {
@@ -19,7 +22,7 @@ class FoodController extends GetxController {
   }
 
   void _loadFoods() async {
-    if (foods.isEmpty) {
+    if (foodList.isEmpty) {
       final rawData = await rootBundle.loadString("assets/comidasv1.csv");
       List<List<dynamic>> listData = const CsvToListConverter(
           fieldDelimiter: ';').convert(rawData);
@@ -34,7 +37,8 @@ class FoodController extends GetxController {
             fatPerUnit: double.tryParse(e[5].toString()) ?? 0,
           )).toList();
       parsedFoods.sort((a, b) => a.name.compareTo(b.name));
-      foods.addAll(parsedFoods);
+      foodList.addAll(parsedFoods);
+      filteredFoodList.addAll(parsedFoods);
     }
     foodsLoaded = true;
     update();
@@ -59,9 +63,48 @@ class FoodController extends GetxController {
     }
   }
 
+  Future<void> search(String text) async {
+    searchText = text;
+    searchTextController.value = TextEditingValue(
+      text: text,
+      selection: TextSelection.fromPosition(
+        TextPosition(offset: text.length),
+      ),
+    );
+    if (searchText != null && searchText!.isNotEmpty) {
+      filteredFoodList = foodList.where((food) => replaceDiacritics(food.name.toLowerCase()).contains(replaceDiacritics(text.toLowerCase()))).toList();
+    } else {
+      filteredFoodList = foodList;
+    }
+    update();
+  }
+
+  void createFood(Food food) {
+    foodList.add(food);
+  }
+
+  void cleanSearch() {
+    searchTextController.value = TextEditingValue(
+      text: '',
+      selection: TextSelection.fromPosition(
+        const TextPosition(offset: 0),
+      ),
+    );
+  }
+
+  String replaceDiacritics(String str) {
+    var withDia = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
+    var withoutDia = 'AAAAAAaaaaaaOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz';
+    for (int i = 0; i < withDia.length; i++) {
+      str = str.replaceAll(withDia[i], withoutDia[i]);
+    }
+    return str;
+  }
+
   @override
   void dispose() {
     weightController.dispose();
+    searchTextController.dispose();
     super.dispose();
   }
 }

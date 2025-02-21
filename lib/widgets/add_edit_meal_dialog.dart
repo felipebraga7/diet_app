@@ -32,7 +32,7 @@ class AddEditMealDialog extends StatelessWidget {
                           isExpanded: true,
                           onChanged: (Food? value) {
                             c.setSelectedFood(value);},
-                          items: c.foods.map((food) {
+                          items: c.foodList.map((food) {
                             return DropdownMenuItem(
                               value: food,
                               child: Text(food.name),
