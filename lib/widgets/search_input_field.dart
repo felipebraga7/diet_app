@@ -5,7 +5,6 @@ import 'package:rxdart/rxdart.dart';
 
 class SearchInputField extends StatefulWidget {
   final double width;
-  final bool requestFocus;
   final String hint;
   final int debounceDuration;
   final bool emitSameValue;
@@ -16,7 +15,6 @@ class SearchInputField extends StatefulWidget {
   const SearchInputField({
     super.key,
     this.width = double.infinity,
-    this.requestFocus = false,
     this.hint = '',
     this.debounceDuration = 250,
     this.emitSameValue = false,
@@ -32,7 +30,6 @@ class SearchInputField extends StatefulWidget {
 class _SearchInputFieldState extends State<SearchInputField> {
   late TextEditingController searchController;
   late StreamSubscription<String> subscription;
-  final searchFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -49,7 +46,6 @@ class _SearchInputFieldState extends State<SearchInputField> {
     searchController.addListener(() {
       subject.add(searchController.text);
     });
-    if (widget.requestFocus) searchFocusNode.requestFocus();
   }
 
   @override
@@ -68,7 +64,6 @@ class _SearchInputFieldState extends State<SearchInputField> {
       width: widget.width,
       child: TextFormField(
         controller: searchController,
-        focusNode: searchFocusNode,
         keyboardType: TextInputType.text,
         style: textTheme.titleMedium!.copyWith(
           fontWeight: FontWeight.w500,
@@ -88,17 +83,17 @@ class _SearchInputFieldState extends State<SearchInputField> {
           ),
           prefixIcon: Icon(
             Icons.search,
-            color: colorScheme.secondary,
+            color: colorScheme.inverseSurface,
           ),
           suffixIcon: GestureDetector(
               child: Icon(
                 Icons.close,
-                color: colorScheme.secondary,
+                color: colorScheme.inverseSurface,
               ),
               onTap: () => searchController.text = ''),
           hintText: widget.hint,
           hintStyle: textTheme.bodyMedium!.copyWith(
-            color: colorScheme.secondary,
+            color: colorScheme.inverseSurface,
           ),
         ),
       ),

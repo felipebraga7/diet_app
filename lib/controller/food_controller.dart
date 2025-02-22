@@ -2,6 +2,7 @@ import 'package:csv/csv.dart';
 import 'package:diet_app/controller/meal_controller.dart';
 import 'package:diet_app/model/food.dart';
 import 'package:diet_app/model/food_event.dart';
+import 'package:diet_app/util/utils.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,6 @@ class FoodController extends GetxController {
   bool foodsLoaded = false;
   final weightController = TextEditingController();
   final searchTextController = TextEditingController();
-  String? searchText;
 
   @override
   void onInit() async {
@@ -64,41 +64,24 @@ class FoodController extends GetxController {
   }
 
   Future<void> search(String text) async {
-    searchText = text;
-    searchTextController.value = TextEditingValue(
-      text: text,
-      selection: TextSelection.fromPosition(
-        TextPosition(offset: text.length),
-      ),
-    );
-    if (searchText != null && searchText!.isNotEmpty) {
-      filteredFoodList = foodList.where((food) => replaceDiacritics(food.name.toLowerCase()).contains(replaceDiacritics(text.toLowerCase()))).toList();
+    if (text.isNotEmpty) {
+      filteredFoodList = foodList.where((food) => Utils.contains(food.name, text.toLowerCase())).toList();
     } else {
       filteredFoodList = foodList;
     }
     update();
   }
 
-  void createFood(Food food) {
-    foodList.add(food);
-  }
-
-  void cleanSearch() {
-    searchTextController.value = TextEditingValue(
-      text: '',
-      selection: TextSelection.fromPosition(
-        const TextPosition(offset: 0),
-      ),
-    );
-  }
-
-  String replaceDiacritics(String str) {
-    var withDia = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
-    var withoutDia = 'AAAAAAaaaaaaOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz';
-    for (int i = 0; i < withDia.length; i++) {
-      str = str.replaceAll(withDia[i], withoutDia[i]);
+  void createUpdateFood(Food food) {
+    var index = foodList.indexWhere((el) => el.id == food.id);
+    if (index != -1) {
+      foodList[index] = food;
+    } else {
+      foodList.add(food);
+      foodList.sort((a, b) => Utils.compareTo(a.name, b.name));
     }
-    return str;
+    filteredFoodList = foodList;
+    update();
   }
 
   @override

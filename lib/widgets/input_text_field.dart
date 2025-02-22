@@ -19,7 +19,7 @@ class InputTextField extends StatefulWidget {
   final VoidCallback? onTap;
 
   const InputTextField({
-    Key? key,
+    super.key,
     required this.controller,
     this.inputFormatters,
     this.automaticallyDisposeController = true,
@@ -35,7 +35,7 @@ class InputTextField extends StatefulWidget {
     this.isPasswd = false,
     this.keyboardType = TextInputType.text,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   State<InputTextField> createState() => _InputTextFieldState();

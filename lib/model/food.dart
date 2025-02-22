@@ -20,6 +20,16 @@ class Food {
     id = Uuid().v4();
   }
 
+  Food._({
+    required this.id,
+    required this.name,
+    required this.standardQuantity,
+    required this.caloriesPerUnit,
+    required this.proteinPerUnit,
+    required this.carbsPerUnit,
+    required this.fatPerUnit,
+  });
+
   String getPortionCalories() {
     return (caloriesPerUnit * standardQuantity).toStringAsFixed(2);
   }
@@ -34,5 +44,33 @@ class Food {
 
   String getPortionFat() {
     return (fatPerUnit * standardQuantity).toStringAsFixed(2);
+  }
+
+  Food.empty()
+      : id = Uuid().v4(),
+        name = '',
+        standardQuantity = 0,
+        caloriesPerUnit = 0,
+        proteinPerUnit = 0,
+        carbsPerUnit = 0,
+        fatPerUnit = 0;
+
+  Food copyWith({
+    String? name,
+    double? standardQuantity,
+    double? caloriesPerUnit,
+    double? proteinPerUnit,
+    double? carbsPerUnit,
+    double? fatPerUnit,
+  }) {
+    return Food._(
+      id: id,
+      name: name ?? this.name,
+      standardQuantity: standardQuantity ?? this.standardQuantity,
+      caloriesPerUnit: caloriesPerUnit ?? this.caloriesPerUnit,
+      proteinPerUnit: proteinPerUnit ?? this.proteinPerUnit,
+      carbsPerUnit: carbsPerUnit ?? this.carbsPerUnit,
+      fatPerUnit: fatPerUnit ?? this.fatPerUnit,
+    );
   }
 }

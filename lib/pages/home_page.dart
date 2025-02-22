@@ -1,4 +1,3 @@
-import 'package:diet_app/widgets/bottom_bar_scaffold.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/calendar_selector.dart';
@@ -11,7 +10,7 @@ class DiaryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BottomBarScaffold(
+      child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.all(14),
           child: Column(
