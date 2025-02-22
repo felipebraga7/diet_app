@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class CreateUpdateFoodController extends GetxController {
-  Food food;
+  Food? food;
 
   final nameController = TextEditingController();
   final standardQuantityController = TextEditingController();
@@ -22,19 +22,22 @@ class CreateUpdateFoodController extends GetxController {
 
   @override
   void onInit() async {
-    nameController.text = food.name;
-    standardQuantityController.text = food.standardQuantity > 0 ? food.standardQuantity.toString() : '';
-    caloriesController.text = food.caloriesPerUnit > 0 ? (food.caloriesPerUnit*food.standardQuantity).toString(): '';
-    carbsController.text = food.carbsPerUnit > 0 ? (food.carbsPerUnit*food.standardQuantity).toString(): '';
-    proteinController.text = food.proteinPerUnit > 0 ? (food.proteinPerUnit*food.standardQuantity).toString(): '';
-    fatController.text = food.fatPerUnit > 0 ? (food.fatPerUnit*food.standardQuantity).toString(): '';
+    if (food != null) {
+      nameController.text = food!.name;
+      standardQuantityController.text = food!.standardQuantity.toString();
+      caloriesController.text = (food!.caloriesPerUnit*food!.standardQuantity).toString();
+      carbsController.text = (food!.carbsPerUnit*food!.standardQuantity).toString();
+      proteinController.text = (food!.proteinPerUnit*food!.standardQuantity).toString();
+      fatController.text = (food!.fatPerUnit*food!.standardQuantity).toString();
+    }
     super.onInit();
   }
 
   void saveFood() {
     if (_validate()) {
       var standardQuantity = double.tryParse(standardQuantityController.text) ?? 0;
-      food = food.copyWith(
+      food ??= Food.empty();
+      food = food!.copyWith(
         name: nameController.text,
         standardQuantity: standardQuantity,
         caloriesPerUnit: Utils.round(double.tryParse(caloriesController.text)! / standardQuantity, 5),
@@ -42,7 +45,7 @@ class CreateUpdateFoodController extends GetxController {
         carbsPerUnit: Utils.round(double.tryParse(carbsController.text)! / standardQuantity, 5),
         fatPerUnit: Utils.round(double.tryParse(fatController.text)! / standardQuantity, 5),
       );
-      Get.put(FoodController()).createUpdateFood(food);
+      Get.put(FoodController()).createUpdateFood(food!);
     }
   }
 

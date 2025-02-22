@@ -23,7 +23,6 @@ class Utils {
   }
 
   static double round(double value, int places) {
-    debugPrint(value.toString());
     String str = value.toStringAsFixed(places);
     return double.parse(str);
   }

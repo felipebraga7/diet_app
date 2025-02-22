@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'app_color_light_theme.dart';
+
 final lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.grey[100],
     colorScheme: ColorScheme.light(
-      primary: Colors.blueAccent,
-      onPrimary: Colors.white,
-      surface: Colors.white,
-      secondary: Colors.grey[300]!,
-      onSecondary: Colors.blueGrey,
-      inverseSurface: Colors.black,
+      primary: AppColorsLightTheme.primary,
+      onPrimary: AppColorsLightTheme.onPrimary,
+      surface: AppColorsLightTheme.surface,
+      secondary: AppColorsLightTheme.secondary,
+      onSecondary: AppColorsLightTheme.onSecondary,
+      inverseSurface: AppColorsLightTheme.inverseSurface,
     ),
     textTheme: TextTheme(
         titleLarge: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.black),

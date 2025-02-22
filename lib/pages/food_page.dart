@@ -24,6 +24,7 @@ class FoodPage extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 14, left: 14, right: 14),
                     child: SearchInputField(hint: 'Procure por um alimento', onText: (text) => c.search(text)),
                   ),
+                  SizedBox(height: 10),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -70,9 +71,9 @@ class FoodPage extends StatelessWidget {
   }
 
   String _getSubtitle(Food food) {
-    return '${food.getPortionCalories()} cal '
+    return '${food.getPortionCalories()} kcal '
         '| ${food.getPortionCarbs()}C '
-        '| ${food.getPortionCarbs()}P '
+        '| ${food.getPortionProtein()}P '
         '| ${food.getPortionFat()}G '
         '• ${food.standardQuantity.toStringAsFixed(0)}g';
   }

@@ -1,13 +1,8 @@
-import 'package:diet_app/controller/meal_controller.dart';
-import 'package:diet_app/main.dart';
 import 'package:diet_app/model/meal.dart';
-import 'package:diet_app/util/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../model/food.dart';
 import 'add_edit_meal_dialog.dart';
 
 class MealDetail extends StatelessWidget {
