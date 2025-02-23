@@ -110,13 +110,13 @@ class MealSummary extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 5),
-              Text(
-                '${value.toStringAsFixed(0)} g',
-                style: textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurface,
+              SizedBox(
+                width: 40,
+                child: Text(
+                  '${value.toStringAsFixed(0)} g',
+                  textAlign: TextAlign.right,
                 ),
-              ),
+              )
             ],
           ),
         ],
