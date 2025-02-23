@@ -1,4 +1,4 @@
-import 'package:diet_app/pages/home_page.dart';
+import 'package:diet_app/pages/diary_page.dart';
 import 'package:flutter/material.dart';
 
 enum NavigationOptionsEnum {

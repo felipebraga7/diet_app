@@ -5,7 +5,7 @@ class AppColorsLightTheme {
 
   static const primary = Color(0xff2162d5);
   static const onPrimary = Colors.white;
-  static const secondary = Color(0xFF979797);
+  static const secondary = Color(0x49979797);
   static const surface = Colors.white;
   static const inverseSurface = Colors.black;
   static const onSecondary = Colors.blueGrey;

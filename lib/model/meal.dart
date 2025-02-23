@@ -8,8 +8,18 @@ class Meal {
   final List<FoodEvent> foodEventList;
   final DateTime dateTime;
   final double calGoal;
+  final double carbsGoal;
+  final double proteinGoal;
+  final double fatGoal;
 
-  Meal({required this.mealCategory, required this.foodEventList, required this.dateTime, required this.calGoal}) {
+  Meal(
+      {required this.mealCategory,
+      required this.foodEventList,
+      required this.dateTime,
+      required this.calGoal,
+      required this.carbsGoal,
+      required this.proteinGoal,
+      required this.fatGoal}) {
     id = Uuid().v4();
   }
 
