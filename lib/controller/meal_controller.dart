@@ -3,10 +3,13 @@ import 'package:diet_app/model/meal.dart';
 import 'package:diet_app/model/meal_category_enum.dart';
 import 'package:diet_app/model/meal_configuration.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class MealController extends GetxController {
   final List<Meal> mealList = [];
   bool mealListLoaded = false;
+  final String _mealListKey = 'mealList';
 
   @override
   void onInit() {
@@ -18,7 +21,7 @@ class MealController extends GetxController {
     loadMealList(date);
   }
 
-  void loadMealList(DateTime date) async {
+  Future<void> loadMealList(DateTime date) async {
     mealListLoaded = false;
     mealList.clear();
     var dbMealList = await _getMealListFromDB(date);
@@ -29,7 +32,39 @@ class MealController extends GetxController {
   }
 
   Future<List<Meal>?> _getMealListFromDB(DateTime date) async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedMeals = prefs.getString(_mealListKey);
+
+    if (storedMeals != null) {
+      List<dynamic> jsonList = jsonDecode(storedMeals);
+      final mealList = jsonList.map((item) => Meal.fromJson(item)).toList();
+      final filteredList = mealList.where((meal) =>
+      meal.dateTime.year == date.year &&
+          meal.dateTime.month == date.month &&
+          meal.dateTime.day == date.day
+      ).toList();
+      if (filteredList.isNotEmpty) {
+        return filteredList;
+      }
+    }
     return null;
+  }
+
+  Future<void> _saveMeals() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final existingData = prefs.getString(_mealListKey);
+    List<Map<String, dynamic>> mealListData = [];
+
+    if (existingData != null) {
+      final List<dynamic> decodedData = jsonDecode(existingData);
+      mealListData = List<Map<String, dynamic>>.from(decodedData);
+    }
+
+    mealListData.addAll(mealList.map((meal) => meal.toJson()));
+
+    final jsonList = jsonEncode(mealListData);
+    await prefs.setString(_mealListKey, jsonList);
   }
 
   Future<List<Meal>> _getDefaultMealPlan(DateTime date) async {
@@ -113,11 +148,12 @@ class MealController extends GetxController {
       fatGoal: 100,
     ));
     return MealConfiguration(userMealConfigurationList: userMealConfigurationList);
-}
+  }
+
   void addFoodToMeal(String mealId, FoodEvent foodEvent) {
     final meal = mealList.firstWhere((element) => element.id == mealId);
     meal.foodEventList.add(foodEvent);
+    _saveMeals();
     update();
   }
-
 }

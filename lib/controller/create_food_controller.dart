@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'package:diet_app/controller/food_controller.dart';
 import 'package:diet_app/model/food.dart';
 import 'package:diet_app/util/utils.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateUpdateFoodController extends GetxController {
   Food? food;
@@ -21,7 +23,12 @@ class CreateUpdateFoodController extends GetxController {
   });
 
   @override
-  void onInit() async {
+  void onInit() {
+    super.onInit();
+    loadFoodData();
+  }
+
+  void loadFoodData() async {
     if (food != null) {
       nameController.text = food!.name;
       standardQuantityController.text = food!.standardQuantity.toString();
@@ -30,10 +37,9 @@ class CreateUpdateFoodController extends GetxController {
       proteinController.text = (food!.proteinPerUnit*food!.standardQuantity).toString();
       fatController.text = (food!.fatPerUnit*food!.standardQuantity).toString();
     }
-    super.onInit();
   }
 
-  void saveFood() {
+  void saveFood() async {
     if (_validate()) {
       var standardQuantity = double.tryParse(standardQuantityController.text) ?? 0;
       food ??= Food.empty();
@@ -45,6 +51,10 @@ class CreateUpdateFoodController extends GetxController {
         carbsPerUnit: Utils.round(double.tryParse(carbsController.text)! / standardQuantity, 5),
         fatPerUnit: Utils.round(double.tryParse(fatController.text)! / standardQuantity, 5),
       );
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('saved_food', jsonEncode(food!.toJson()));
+
       Get.put(FoodController()).createUpdateFood(food!);
     }
   }

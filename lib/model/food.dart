@@ -55,6 +55,28 @@ class Food {
         carbsPerUnit = 0,
         fatPerUnit = 0;
 
+  factory Food.fromJson(Map<String, dynamic> json) {
+    return Food(
+      name: json['name'],
+      standardQuantity: json['standardQuantity'],
+      caloriesPerUnit: json['caloriesPerUnit'],
+      proteinPerUnit: json['proteinPerUnit'],
+      carbsPerUnit: json['carbsPerUnit'],
+      fatPerUnit: json['fatPerUnit'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'standardQuantity': standardQuantity,
+      'caloriesPerUnit': caloriesPerUnit,
+      'proteinPerUnit': proteinPerUnit,
+      'carbsPerUnit': carbsPerUnit,
+      'fatPerUnit': fatPerUnit,
+    };
+  }
+
   Food copyWith({
     String? name,
     double? standardQuantity,

@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'package:diet_app/controller/meal_controller.dart';
 import 'package:diet_app/model/food.dart';
 import 'package:diet_app/model/food_event.dart';
 import 'package:diet_app/util/utils.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FoodController extends GetxController {
   final List<Food> foodList = [];
@@ -12,21 +14,36 @@ class FoodController extends GetxController {
   bool foodsLoaded = false;
   final weightController = TextEditingController();
   final searchTextController = TextEditingController();
+  final String _foodListKey = 'foodList';
 
   @override
-  void onInit() async {
-    _loadFoods();
+  void onInit() {
     super.onInit();
+    _loadFoods();
   }
 
-  void _loadFoods() async {
-    if (foodList.isEmpty) {
+  Future<void> _loadFoods() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedFoods = prefs.getString(_foodListKey);
+
+    if (storedFoods != null) {
+      List<dynamic> jsonList = jsonDecode(storedFoods);
+      foodList.addAll(jsonList.map((item) => Food.fromJson(item)));
+    } else {
       foodList.addAll(_getInitialFoodList());
-      foodList.sort((a, b) => a.name.compareTo(b.name));
-      filteredFoodList.addAll(foodList);
+      await _saveFoods();
     }
+
+    foodList.sort((a, b) => a.name.compareTo(b.name));
+    filteredFoodList.addAll(foodList);
     foodsLoaded = true;
     update();
+  }
+
+  Future<void> _saveFoods() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonList = jsonEncode(foodList.map((food) => food.toJson()).toList());
+    await prefs.setString(_foodListKey, jsonList);
   }
 
   void setSelectedFood(Food? food) {
@@ -57,7 +74,7 @@ class FoodController extends GetxController {
     update();
   }
 
-  void createUpdateFood(Food food) {
+  Future<void> createUpdateFood(Food food) async {
     var index = foodList.indexWhere((el) => el.id == food.id);
     if (index != -1) {
       foodList[index] = food;
@@ -66,6 +83,7 @@ class FoodController extends GetxController {
       foodList.sort((a, b) => Utils.compareTo(a.name, b.name));
     }
     filteredFoodList = foodList;
+    await _saveFoods();
     update();
   }
 
@@ -99,5 +117,4 @@ class FoodController extends GetxController {
     foodList.add(Food(name: 'Amendoim', standardQuantity: 100, caloriesPerUnit: 5.67, proteinPerUnit: 0.26 ,carbsPerUnit: 0.06, fatPerUnit: 0.49));
     return foodList;
   }
-
 }

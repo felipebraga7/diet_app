@@ -12,4 +12,18 @@ class FoodEvent {
   }) {
     id = Uuid().v4();
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'food': food.toJson(),
+      'quantity': quantity,
+    };
+  }
+
+  factory FoodEvent.fromJson(Map<String, dynamic> json) {
+    return FoodEvent(
+      food: Food.fromJson(json['food']),
+      quantity: json['quantity'],
+    );
+  }
 }
