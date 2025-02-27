@@ -25,13 +25,15 @@ class MealController extends GetxController {
     mealListLoaded = false;
     mealList.clear();
     var dbMealList = await _getMealListFromDB(date);
-    dbMealList ??= await _getDefaultMealPlan(date);
+    if (dbMealList.isEmpty) {
+      dbMealList = await _getDefaultMealPlan(date);
+    }
     mealList.addAll(dbMealList);
     mealListLoaded = true;
     update();
   }
 
-  Future<List<Meal>?> _getMealListFromDB(DateTime date) async {
+  Future<List<Meal>> _getMealListFromDB(DateTime date) async {
     final prefs = await SharedPreferences.getInstance();
     final storedMeals = prefs.getString(_mealListKey);
 
@@ -43,26 +45,28 @@ class MealController extends GetxController {
           meal.dateTime.month == date.month &&
           meal.dateTime.day == date.day
       ).toList();
-      if (filteredList.isNotEmpty) {
-        return filteredList;
-      }
+      return filteredList;
     }
-    return null;
+    return [];
   }
 
-  Future<void> _saveMeals() async {
+  Future<void> _saveMeals(DateTime date) async {
     final prefs = await SharedPreferences.getInstance();
+    final storedMeals = prefs.getString(_mealListKey);
 
-    final existingData = prefs.getString(_mealListKey);
-    List<Map<String, dynamic>> mealListData = [];
-
-    if (existingData != null) {
-      final List<dynamic> decodedData = jsonDecode(existingData);
-      mealListData = List<Map<String, dynamic>>.from(decodedData);
+    List<Meal> allMeals = [];
+    if (storedMeals != null) {
+      List<dynamic> jsonList = jsonDecode(storedMeals);
+      allMeals = jsonList.map((item) => Meal.fromJson(item)).toList();
     }
 
-    mealListData.addAll(mealList.map((meal) => meal.toJson()));
+    allMeals.removeWhere((meal) =>
+    meal.dateTime.year == date.year &&
+        meal.dateTime.month == date.month &&
+        meal.dateTime.day == date.day);
+    allMeals.addAll(mealList);
 
+    final mealListData = allMeals.map((meal) => meal.toJson()).toList();
     final jsonList = jsonEncode(mealListData);
     await prefs.setString(_mealListKey, jsonList);
   }
@@ -153,7 +157,7 @@ class MealController extends GetxController {
   void addFoodToMeal(String mealId, FoodEvent foodEvent) {
     final meal = mealList.firstWhere((element) => element.id == mealId);
     meal.foodEventList.add(foodEvent);
-    _saveMeals();
+    _saveMeals(meal.dateTime);
     update();
   }
 }
