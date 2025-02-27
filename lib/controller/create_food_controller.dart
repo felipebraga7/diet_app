@@ -39,6 +39,10 @@ class CreateUpdateFoodController extends GetxController {
     }
   }
 
+  void deleteFood(Food food) async {
+    Get.put(FoodController()).deleteFood(food);
+  }
+
   void saveFood() async {
     if (_validate()) {
       var standardQuantity = double.tryParse(standardQuantityController.text) ?? 0;

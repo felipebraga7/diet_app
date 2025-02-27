@@ -80,40 +80,117 @@ class CreateUpdateFoodPage extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(14.0),
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: TextButton(
-                                  child: Text(
-                                    isEdit
-                                        ? 'Atualizar alimento'
-                                        : 'Adicionar alimento',
-                                    style: textTheme.titleMedium!.copyWith(color: colorScheme.surface),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: TextButton(
+                                      child: Text(
+                                        isEdit ? 'Atualizar alimento' : 'Adicionar alimento',
+                                        style: textTheme.titleMedium!.copyWith(color: colorScheme.surface),
+                                      ),
+                                      onPressed: () {
+                                        c.saveFood();
+                                        if (c.errorMessage.isNotEmpty) {
+                                          Get.snackbar(
+                                            'Erro ao ${isEdit ? 'atualizar' : 'criar'} alimento',
+                                            c.errorMessage,
+                                            duration: Duration(seconds: 3),
+                                            backgroundColor: colorScheme.error,
+                                            backgroundGradient: RadialGradient(
+                                              colors: [colorScheme.errorGradientEnd, colorScheme.errorGradientStart],
+                                            ),
+                                          );
+                                          return;
+                                        }
+                                        Get.back();
+                                        Get.snackbar(
+                                          'Sucesso!',
+                                          'Alimento ${isEdit ? 'atualizado' : 'criado'}',
+                                          duration: Duration(seconds: 3),
+                                          backgroundColor: colorScheme.success,
+                                          backgroundGradient: RadialGradient(
+                                            colors: [colorScheme.successGradientEnd, colorScheme.successGradientStart],
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
-                                  onPressed: () {
-                                    c.saveFood();
-                                    if (c.errorMessage.isNotEmpty) {
-                                      Get.snackbar(
-                                        'Erro ao ${isEdit ? 'atualizar' : 'criar'} alimento',
-                                        c.errorMessage,
-                                        duration: Duration(seconds: 3),
-                                        backgroundColor: colorScheme.error,
-                                        backgroundGradient: RadialGradient(
-                                          colors: [colorScheme.errorGradientEnd, colorScheme.errorGradientStart],
+                                  if (isEdit) ...[
+                                    SizedBox(height: 10),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: TextButton(
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Colors.red,
                                         ),
-                                      );
-                                      return;
-                                    }
-                                    Get.back();
-                                    Get.snackbar(
-                                        'Sucesso!',
-                                        'Alimento ${isEdit ? 'atualizado' : 'criado'}',
-                                        duration: Duration(seconds: 3),
-                                        backgroundColor: colorScheme.success,
-                                        backgroundGradient: RadialGradient(
-                                          colors: [colorScheme.successGradientEnd, colorScheme.successGradientStart],
-                                        ));
-                                  },
-                                ),
+                                        child: Text(
+                                          'Excluir alimento',
+                                          style: textTheme.titleMedium!.copyWith(color: colorScheme.surface),
+                                        ),
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                  'Confirmar exclusão',
+                                                  style: textTheme.titleMedium!,
+                                                ),
+                                                content: Text(
+                                                  'Tem certeza que deseja excluir este alimento?',
+                                                  style: textTheme.titleMedium!.copyWith(fontWeight: FontWeight.normal),
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    style: TextButton.styleFrom(
+                                                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                      minimumSize: Size(0, 0),
+                                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                    ),
+                                                    child: Text(
+                                                      'Cancelar',
+                                                      style: textTheme.titleMedium!.copyWith(color: colorScheme.surface),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                  ),
+                                                  TextButton(
+                                                    style: TextButton.styleFrom(
+                                                      backgroundColor: Colors.red,
+                                                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                      minimumSize: Size(0, 0),
+                                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                    ),
+                                                    child: Text(
+                                                      'Excluir',
+                                                      style: textTheme.titleMedium!.copyWith(color: colorScheme.surface),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                      c.deleteFood(food!);
+                                                      Get.back();
+                                                      Get.snackbar(
+                                                        'Sucesso!',
+                                                        'Alimento excluído',
+                                                        duration: Duration(seconds: 3),
+                                                        backgroundColor: colorScheme.success,
+                                                        backgroundGradient: RadialGradient(
+                                                          colors: [colorScheme.successGradientEnd, colorScheme.successGradientStart],
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ]
+                                ],
                               ),
                             ),
                             SizedBox(height: 20),

@@ -87,6 +87,13 @@ class FoodController extends GetxController {
     update();
   }
 
+  Future<void> deleteFood(Food food) async {
+    foodList.remove(food);
+    filteredFoodList = foodList;
+    await _saveFoods();
+    update();
+  }
+
   @override
   void dispose() {
     weightController.dispose();
