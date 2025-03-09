@@ -14,6 +14,7 @@ class AddEditMealDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var textTheme = Theme.of(context).textTheme;
     return Dialog(
       child: Padding(
         padding: EdgeInsets.all(24),
@@ -27,7 +28,7 @@ class AddEditMealDialog extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         DropdownButton<Food>(
-                          hint: Text('Selecione um alimento'),
+                          hint: Text('Selecione um alimento', style: textTheme.labelMedium,),
                           value: c.selectedFood,
                           isExpanded: true,
                           onChanged: (Food? value) {

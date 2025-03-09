@@ -33,5 +33,14 @@ final darkTheme = ThemeData(
         padding: const EdgeInsets.all(16),
         foregroundColor: Colors.red,
         backgroundColor: Colors.blueAccent,
-      ),
-    ));
+    ),
+  ),
+  dialogTheme: DialogTheme(
+    backgroundColor: AppColorsDarkTheme.surface,
+    elevation: 24.0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16.0), // Rounded corners
+  ),
+  titleTextStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColorsDarkTheme.inverseSurface),
+  contentTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColorsDarkTheme.inverseSurface),
+),);

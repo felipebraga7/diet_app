@@ -13,14 +13,19 @@ final lightTheme = ThemeData(
       inverseSurface: AppColorsLightTheme.inverseSurface,
     ),
     textTheme: TextTheme(
-        titleLarge: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.black),
-        titleMedium: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
-        titleSmall: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
-        labelLarge: TextStyle(fontSize: 18, color: Colors.blueGrey),
-        labelMedium: TextStyle(fontSize: 14, color: Colors.blueGrey),
-        labelSmall: TextStyle(fontSize: 12, color: Colors.blueGrey),
-        headlineMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
-        headlineSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black)),
+        titleLarge: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: AppColorsLightTheme.inverseSurface),
+        titleMedium: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColorsLightTheme.inverseSurface),
+        titleSmall: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColorsLightTheme.inverseSurface),
+        bodyLarge: TextStyle(fontSize: 26, color: AppColorsLightTheme.inverseSurface),
+        bodyMedium: TextStyle(fontSize: 22, color: AppColorsLightTheme.inverseSurface),
+        bodySmall: TextStyle(fontSize: 18, color: AppColorsLightTheme.inverseSurface),
+        labelLarge: TextStyle(fontSize: 18, color: AppColorsLightTheme.onSecondary),
+        labelMedium: TextStyle(fontSize: 14, color: AppColorsLightTheme.onSecondary),
+        labelSmall: TextStyle(fontSize: 12, color: AppColorsLightTheme.onSecondary),
+        headlineMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColorsLightTheme.inverseSurface),
+        headlineSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColorsLightTheme.inverseSurface)),
+
+
     cardTheme: CardTheme(
       color: Colors.white,
       shadowColor: Colors.black26,
@@ -34,4 +39,13 @@ final lightTheme = ThemeData(
         foregroundColor: Colors.red,
         backgroundColor: Colors.blueAccent,
       ),
-    ));
+    ),
+    dialogTheme: DialogTheme(
+      backgroundColor: AppColorsLightTheme.surface,
+      elevation: 24.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0), // Rounded corners
+      ),
+      titleTextStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColorsLightTheme.inverseSurface),
+      contentTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColorsLightTheme.inverseSurface),
+    ),);

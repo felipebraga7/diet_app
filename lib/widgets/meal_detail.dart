@@ -43,9 +43,12 @@ class MealDetail extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          meal.mealCategory.name,
-                          style: textTheme.headlineMedium,
+                        Expanded(
+                          child: Text(
+                            meal.mealCategory.name,
+                            style: textTheme.headlineMedium,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         Text(
                           '${meal.getTotalCalories().toStringAsFixed(0)}/${meal.calGoal.toStringAsFixed(0)} kcal',
