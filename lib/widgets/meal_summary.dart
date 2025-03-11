@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MealSummary extends StatelessWidget {
-
   const MealSummary({super.key});
 
   @override
@@ -21,53 +20,51 @@ class MealSummary extends StatelessWidget {
               return CircularProgressIndicator();
             }
             var calGoal = _getTotalCaloriesGoal(c.mealList);
-            return Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 35,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        AspectRatio(
-                          aspectRatio: 1,
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: CircularProgressIndicator(
-                              value: calGoal == 0 ? 0 : (_getTotalCalories(c.mealList) / calGoal),
-                              strokeWidth: 10,
-                              valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
-                              backgroundColor: colorScheme.secondary,
-                              strokeCap: StrokeCap.round,
-                            ),
+            return Row(
+              children: [
+                Expanded(
+                  flex: 35,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1,
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: CircularProgressIndicator(
+                            value: calGoal == 0 ? 0 : (_getTotalCalories(c.mealList) / calGoal),
+                            strokeWidth: 10,
+                            valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
+                            backgroundColor: colorScheme.secondary,
+                            strokeCap: StrokeCap.round,
                           ),
                         ),
-                        Column(
-                          children: [
-                            Text(_getTotalCalories(c.mealList).toStringAsFixed(0), style: textTheme.bodyLarge),
-                            Text(
-                              'Calorias',
-                              style: textTheme.labelMedium,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+                      Column(
+                        children: [
+                          Text(_getTotalCalories(c.mealList).toStringAsFixed(0), style: textTheme.bodyLarge),
+                          Text(
+                            'Calorias',
+                            style: textTheme.labelMedium,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    flex: 65,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _buildMacroSummary(context, 'Carb.', _getTotalCarbs(c.mealList), 200),
-                        _buildMacroSummary(context, 'Proteína', _getTotalProtein(c.mealList), 200),
-                        _buildMacroSummary(context, 'Gordura', _getTotalFat(c.mealList), 200)
-                      ],
-                    ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  flex: 65,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                       _buildMacroSummary(context, 'Carb.', _getTotalCarbs(c.mealList), 200),
+                       _buildMacroSummary(context, 'Proteína', _getTotalProtein(c.mealList), 200),
+                       _buildMacroSummary(context, 'Gordura', _getTotalFat(c.mealList), 200)
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             );
           },
         ),
@@ -80,56 +77,50 @@ class MealSummary extends StatelessWidget {
     var textTheme = Theme.of(context).textTheme;
     double percentage = (value / goal).clamp(0.0, 1.0);
 
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
-          width: 95,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: textTheme.labelMedium?.copyWith(
-                  color: colorScheme.onSurface,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(width: 5),
-              Text(
-                '${(percentage * 100).toStringAsFixed(0)}%',
-                style: textTheme.labelSmall?.copyWith(
-                  color: colorScheme.onSurface,
-                ),
-              ),
-            ],
-          )
+        Text(
+          title,
+          style: textTheme.labelMedium?.copyWith(
+            color: colorScheme.onSurface,
+          ),
+          overflow: TextOverflow.ellipsis,
         ),
-        const SizedBox(width: 5),
-        Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: SizedBox(
-              height: 8,
-              child: LinearProgressIndicator(
-                value: percentage,
-                backgroundColor: colorScheme.secondary,
-                valueColor:
-                AlwaysStoppedAnimation<Color>(colorScheme.primary),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 38,
+              child: Text('${(percentage*100).toStringAsFixed(0)}%',
+                  style: textTheme.labelSmall?.copyWith(
+                    color: colorScheme.onSurface,
+                  )),
+            ),
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: SizedBox(
+                  height: 8,
+                  child: LinearProgressIndicator(
+                    value: percentage,
+                    backgroundColor: colorScheme.secondary,
+                    valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        const SizedBox(width: 5),
-        SizedBox(
-          width: 35,
-          child: Text(
-            '${value.toStringAsFixed(0)} g',
-            textAlign: TextAlign.right,
-            overflow: TextOverflow.ellipsis,
-            style: textTheme.labelSmall?.copyWith(
-              color: colorScheme.onSurface,
+            SizedBox(
+              width: 40,
+              child: Text('${value.toStringAsFixed(0)} g',
+                  textAlign: TextAlign.right,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.labelSmall?.copyWith(
+                    color: colorScheme.onSurface,
+                  )),
             ),
-          ),
+
+          ],
         )
       ],
     );
