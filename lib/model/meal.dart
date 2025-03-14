@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 class Meal {
   late final String id;
   final MealCategoryEnum mealCategory;
-  final List<FoodEvent> foodEventList;
+  final List<EatEvent> eatEventList;
   final DateTime dateTime;
   final double calGoal;
   final double carbsGoal;
@@ -14,7 +14,7 @@ class Meal {
 
   Meal(
       {required this.mealCategory,
-      required this.foodEventList,
+      required this.eatEventList,
       required this.dateTime,
       required this.calGoal,
       required this.carbsGoal,
@@ -23,11 +23,22 @@ class Meal {
     id = Uuid().v4();
   }
 
+  Meal._(
+      {
+        required this.id,
+        required this.mealCategory,
+        required this.eatEventList,
+        required this.dateTime,
+        required this.calGoal,
+        required this.carbsGoal,
+        required this.proteinGoal,
+        required this.fatGoal});
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'mealCategory': mealCategory.index,
-      'foodEventList': foodEventList.map((event) => event.toJson()).toList(),
+      'foodEventList': eatEventList.map((event) => event.toJson()).toList(),
       'dateTime': dateTime.toIso8601String(),
       'calGoal': calGoal,
       'carbsGoal': carbsGoal,
@@ -37,10 +48,11 @@ class Meal {
   }
 
   factory Meal.fromJson(Map<String, dynamic> json) {
-    return Meal(
+    return Meal._(
+      id: json['id'],
       mealCategory: MealCategoryEnum.values[json['mealCategory']],
-      foodEventList: (json['foodEventList'] as List)
-          .map((event) => FoodEvent.fromJson(event))
+      eatEventList: (json['foodEventList'] as List)
+          .map((event) => EatEvent.fromJson(event))
           .toList(),
       dateTime: DateTime.parse(json['dateTime']),
       calGoal: json['calGoal'],
@@ -51,18 +63,18 @@ class Meal {
   }
 
   double getTotalCalories() {
-    return foodEventList.fold(0, (sum, foodEvent) => sum + foodEvent.food.caloriesPerUnit * foodEvent.quantity);
+    return eatEventList.fold(0, (sum, eatEvent) => sum + eatEvent.eatable.caloriesPerUnit * eatEvent.quantity);
   }
 
   double getTotalProtein() {
-    return foodEventList.fold(0, (sum, foodEvent) => sum + foodEvent.food.proteinPerUnit * foodEvent.quantity);
+    return eatEventList.fold(0, (sum, eatEvent) => sum + eatEvent.eatable.proteinPerUnit * eatEvent.quantity);
   }
 
   double getTotalCarbs() {
-    return foodEventList.fold(0, (sum, foodEvent) => sum + foodEvent.food.carbsPerUnit * foodEvent.quantity);
+    return eatEventList.fold(0, (sum, eatEvent) => sum + eatEvent.eatable.carbsPerUnit * eatEvent.quantity);
   }
 
   double getTotalFat() {
-    return foodEventList.fold(0, (sum, foodEvent) => sum + foodEvent.food.fatPerUnit * foodEvent.quantity);
+    return eatEventList.fold(0, (sum, eatEvent) => sum + eatEvent.eatable.fatPerUnit * eatEvent.quantity);
   }
 }

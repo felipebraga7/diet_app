@@ -75,7 +75,7 @@ class MealController extends GetxController {
     var mealConfiguration = await _getMealConfiguration();
     return mealConfiguration.userMealConfigurationList.map((mc) =>
         Meal(mealCategory: mc.mealCategory,
-            foodEventList: [],
+            eatEventList: [],
             dateTime: DateTime(date.year, date.month, date.day, mc.mealTime.hour, mc.mealTime.minute),
             calGoal: mc.calGoal,
             carbsGoal: mc.carbsGoal,
@@ -154,9 +154,9 @@ class MealController extends GetxController {
     return MealConfiguration(userMealConfigurationList: userMealConfigurationList);
   }
 
-  void addFoodToMeal(String mealId, FoodEvent foodEvent) {
+  void addFoodToMeal(String mealId, EatEvent foodEvent) {
     final meal = mealList.firstWhere((element) => element.id == mealId);
-    meal.foodEventList.add(foodEvent);
+    meal.eatEventList.add(foodEvent);
     _saveMeals(meal.dateTime);
     update();
   }

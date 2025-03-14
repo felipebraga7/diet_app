@@ -39,10 +39,6 @@ class CreateUpdateFoodController extends GetxController {
     }
   }
 
-  void deleteFood(Food food) async {
-    Get.put(FoodController()).deleteFood(food);
-  }
-
   void saveFood() async {
     if (_validate()) {
       var standardQuantity = double.tryParse(standardQuantityController.text) ?? 0;
@@ -55,11 +51,6 @@ class CreateUpdateFoodController extends GetxController {
         carbsPerUnit: Utils.round(double.tryParse(carbsController.text)! / standardQuantity, 5),
         fatPerUnit: Utils.round(double.tryParse(fatController.text)! / standardQuantity, 5),
       );
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('saved_food', jsonEncode(food!.toJson()));
-
-      Get.put(FoodController()).createUpdateFood(food!);
     }
   }
 

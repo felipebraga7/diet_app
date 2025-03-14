@@ -1,13 +1,14 @@
-import 'package:diet_app/model/food.dart';
 import 'package:uuid/uuid.dart';
 
-class FoodEvent {
+import 'eatable.dart';
+
+class EatEvent {
   late final String id;
-  final Food food;
+  final Eatable eatable;
   final double quantity;
 
-  FoodEvent({
-    required this.food,
+  EatEvent({
+    required this.eatable,
     required this.quantity,
   }) {
     id = Uuid().v4();
@@ -15,14 +16,14 @@ class FoodEvent {
 
   Map<String, dynamic> toJson() {
     return {
-      'food': food.toJson(),
+      'eatable': eatable.toJson(),
       'quantity': quantity,
     };
   }
 
-  factory FoodEvent.fromJson(Map<String, dynamic> json) {
-    return FoodEvent(
-      food: Food.fromJson(json['food']),
+  factory EatEvent.fromJson(Map<String, dynamic> json) {
+    return EatEvent(
+      eatable: Eatable.fromJson(json['eatable']),
       quantity: json['quantity'],
     );
   }

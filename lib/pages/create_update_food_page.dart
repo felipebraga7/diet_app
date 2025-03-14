@@ -1,4 +1,4 @@
-import 'package:diet_app/controller/create_food_controller.dart';
+import 'package:diet_app/controller/create_update_food_controller.dart';
 import 'package:diet_app/core/app_theme.dart';
 import 'package:diet_app/model/food.dart';
 import 'package:diet_app/widgets/input_text_field.dart';
@@ -102,17 +102,9 @@ class CreateUpdateFoodPage extends StatelessWidget {
                                             ),
                                           );
                                           return;
+                                        } else {
+                                          Get.back(result: {'action': 'save', 'food': c.food});
                                         }
-                                        Get.back();
-                                        Get.snackbar(
-                                          'Sucesso!',
-                                          'Alimento ${isEdit ? 'atualizado' : 'criado'}',
-                                          duration: Duration(seconds: 3),
-                                          backgroundColor: colorScheme.success,
-                                          backgroundGradient: RadialGradient(
-                                            colors: [colorScheme.successGradientEnd, colorScheme.successGradientStart],
-                                          ),
-                                        );
                                       },
                                     ),
                                   ),
@@ -169,17 +161,7 @@ class CreateUpdateFoodPage extends StatelessWidget {
                                                     ),
                                                     onPressed: () {
                                                       Navigator.of(context).pop();
-                                                      c.deleteFood(food!);
-                                                      Get.back();
-                                                      Get.snackbar(
-                                                        'Sucesso!',
-                                                        'Alimento excluído',
-                                                        duration: Duration(seconds: 3),
-                                                        backgroundColor: colorScheme.success,
-                                                        backgroundGradient: RadialGradient(
-                                                          colors: [colorScheme.successGradientEnd, colorScheme.successGradientStart],
-                                                        ),
-                                                      );
+                                                      Get.back(result: {'action': 'delete', 'food': c.food});
                                                     },
                                                   ),
                                                 ],

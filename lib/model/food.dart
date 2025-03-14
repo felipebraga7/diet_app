@@ -1,12 +1,18 @@
 import 'package:uuid/uuid.dart';
 
-class Food {
+import 'eatable.dart';
+
+class Food extends Eatable {
   late final String id;
   final String name;
   final double standardQuantity;
+  @override
   final double caloriesPerUnit;
+  @override
   final double proteinPerUnit;
+  @override
   final double carbsPerUnit;
+  @override
   final double fatPerUnit;
 
   Food({
@@ -30,18 +36,22 @@ class Food {
     required this.fatPerUnit,
   });
 
+  @override
   String getPortionCalories() {
     return (caloriesPerUnit * standardQuantity).toStringAsFixed(2);
   }
 
+  @override
   String getPortionCarbs() {
     return (carbsPerUnit * standardQuantity).toStringAsFixed(2);
   }
 
+  @override
   String getPortionProtein() {
     return (proteinPerUnit * standardQuantity).toStringAsFixed(2);
   }
 
+  @override
   String getPortionFat() {
     return (fatPerUnit * standardQuantity).toStringAsFixed(2);
   }
@@ -55,8 +65,10 @@ class Food {
         carbsPerUnit = 0,
         fatPerUnit = 0;
 
+  @override
   factory Food.fromJson(Map<String, dynamic> json) {
-    return Food(
+    return Food._(
+      id: json['id'],
       name: json['name'],
       standardQuantity: json['standardQuantity'],
       caloriesPerUnit: json['caloriesPerUnit'],
@@ -66,8 +78,11 @@ class Food {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
+      'type': 'food',
+      'id': id,
       'name': name,
       'standardQuantity': standardQuantity,
       'caloriesPerUnit': caloriesPerUnit,
@@ -94,5 +109,13 @@ class Food {
       carbsPerUnit: carbsPerUnit ?? this.carbsPerUnit,
       fatPerUnit: fatPerUnit ?? this.fatPerUnit,
     );
+  }
+
+  String get nutritionData {
+    return '${this.getPortionCalories()} kcal '
+        '| ${this.getPortionCarbs()}C '
+        '| ${this.getPortionProtein()}P '
+        '| ${this.getPortionFat()}G '
+        '• ${this.standardQuantity.toStringAsFixed(0)}g';
   }
 }
