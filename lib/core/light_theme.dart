@@ -25,7 +25,9 @@ final lightTheme = ThemeData(
         headlineMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColorsLightTheme.inverseSurface),
         headlineSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColorsLightTheme.inverseSurface)),
 
-
+    inputDecorationTheme: InputDecorationTheme(
+      labelStyle: TextStyle(fontSize: 18, color: AppColorsLightTheme.inverseSurface)
+    ),
     cardTheme: CardTheme(
       color: Colors.white,
       shadowColor: Colors.black26,

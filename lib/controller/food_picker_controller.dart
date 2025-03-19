@@ -4,7 +4,7 @@ import 'package:diet_app/util/utils.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class FoodPickerController extends GetxController {
+class FoodListController extends GetxController {
   final FoodService _foodService = FoodService();
 
   final List<Food> foodList = [];

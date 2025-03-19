@@ -92,7 +92,7 @@ class _SearchInputFieldState extends State<SearchInputField> {
               ),
               onTap: () => searchController.text = ''),
           hintText: widget.hint,
-          hintStyle: textTheme.bodyMedium!.copyWith(
+          hintStyle: textTheme.labelMedium!.copyWith(
             color: colorScheme.inverseSurface,
           ),
         ),

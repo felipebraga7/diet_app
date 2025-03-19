@@ -41,11 +41,11 @@ class FoodGroupPage extends StatelessWidget {
                               children: [
                                 Text(
                                   c.filteredFoodGroupList[index].name,
-                                  style: textTheme.titleMedium,
+                                  style: textTheme.titleSmall,
                                 ),
                                 Text(
                                   _getSubtitle(c.filteredFoodGroupList[index]),
-                                  style: textTheme.labelLarge,
+                                  style: textTheme.labelMedium,
                                 ),
                                 SimpleDivider()
                               ],

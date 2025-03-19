@@ -1,5 +1,6 @@
 import 'package:diet_app/controller/meal_controller.dart';
 import 'package:diet_app/model/meal.dart';
+import 'package:diet_app/widgets/food_picker_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,6 +16,7 @@ class AddEditMealDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
+    var colorScheme = Theme.of(context).colorScheme;
     return Dialog(
       child: Padding(
         padding: EdgeInsets.all(24),
@@ -27,24 +29,43 @@ class AddEditMealDialog extends StatelessWidget {
                       spacing: 8,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        DropdownButton<Food>(
-                          hint: Text('Selecione um alimento', style: textTheme.labelMedium,),
-                          value: c.selectedFood,
-                          isExpanded: true,
-                          onChanged: (Food? value) {
-                            c.setSelectedFood(value);},
-                          items: c.foodList.map((food) {
-                            return DropdownMenuItem(
-                              value: food,
-                              child: Text(food.name),
+                        GestureDetector(
+                          onTap: () async {
+                            Food? selectedFood = await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return FoodPickerDialog();
+                              },
                             );
-                          }).toList(),
+                            if (selectedFood != null) {
+                              c.setSelectedFood(selectedFood);
+                            }
+                          },
+                          child: SizedBox(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(child:
+                                Text(c.selectedFood == null ? 'Selecione um alimento' : c.selectedFood!.name,
+                                  style: textTheme.labelLarge,)),
+                                IconTheme(
+                                  data: IconThemeData(
+                                    color: colorScheme.primary,
+                                    size: 24,
+                                  ),
+                                  child: Icon(Icons.arrow_drop_down),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                         Row(
                           children: [
                             Expanded(
                               child: TextField(
                                 controller: c.weightController,
+                                style: textTheme.bodySmall,
                                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                                 decoration: InputDecoration(
                                   labelText: 'Peso (g)',
@@ -56,10 +77,10 @@ class AddEditMealDialog extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            _buildNutrientColumn('Kcal.', c.selectedFood?.caloriesPerUnit ?? 0, c.weightController.text),
-                            _buildNutrientColumn('Prot.', c.selectedFood?.proteinPerUnit ?? 0, c.weightController.text),
-                            _buildNutrientColumn('Carb.', c.selectedFood?.carbsPerUnit ?? 0, c.weightController.text),
-                            _buildNutrientColumn('Gord.', c.selectedFood?.fatPerUnit ?? 0, c.weightController.text),
+                            _buildNutrientColumn(context, 'Kcal.', c.selectedFood?.caloriesPerUnit ?? 0, c.weightController.text),
+                            _buildNutrientColumn(context, 'Prot.', c.selectedFood?.proteinPerUnit ?? 0, c.weightController.text),
+                            _buildNutrientColumn(context, 'Carb.', c.selectedFood?.carbsPerUnit ?? 0, c.weightController.text),
+                            _buildNutrientColumn(context, 'Gord.', c.selectedFood?.fatPerUnit ?? 0, c.weightController.text),
                           ],
                         ),
                         ElevatedButton.icon(
@@ -78,11 +99,17 @@ class AddEditMealDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildNutrientColumn(String label, double nutrientValue, String weightText) {
+  Widget _buildNutrientColumn(BuildContext context, String label, double nutrientValue, String weightText) {
+    var textTheme = Theme.of(context).textTheme;
+
     return Column(
       children: [
-        Text(label, textAlign: TextAlign.center),
-        Text(Utils.formatNumber(nutrientValue * (double.tryParse(weightText) ?? 0)), textAlign: TextAlign.center),
+        Text(label,
+            style: textTheme.headlineMedium,
+            textAlign: TextAlign.center),
+        Text(Utils.formatNumber(nutrientValue * (double.tryParse(weightText) ?? 0)),
+            style: textTheme.headlineMedium,
+            textAlign: TextAlign.center),
       ],
     );
   }
