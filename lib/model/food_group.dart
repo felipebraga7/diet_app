@@ -5,26 +5,25 @@ import 'eatable.dart';
 
 class FoodGroup extends Eatable {
   late final String id;
-  final String name;
   List<FoodQuantity> foodQuantityList;
 
   FoodGroup({
-    required this.name,
+    required name,
     required this.foodQuantityList,
-  }) {
+  }) : super(name, 1) {
     id = Uuid().v4();
   }
 
   FoodGroup._({
     required this.id,
-    required this.name,
+    required name,
     required this.foodQuantityList,
-  });
+  })  : super(name, 1) ;
 
   FoodGroup.empty()
       : id = Uuid().v4(),
-        name = '',
-        foodQuantityList = [];
+        foodQuantityList = [],
+        super('', 1);
 
   FoodGroup copyWith({
     String? id,

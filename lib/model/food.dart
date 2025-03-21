@@ -4,8 +4,7 @@ import 'eatable.dart';
 
 class Food extends Eatable {
   late final String id;
-  final String name;
-  final double standardQuantity;
+
   @override
   final double caloriesPerUnit;
   @override
@@ -16,25 +15,26 @@ class Food extends Eatable {
   final double fatPerUnit;
 
   Food({
-    required this.name,
-    required this.standardQuantity,
+    required name,
+    required standardQuantity,
     required this.caloriesPerUnit,
     required this.proteinPerUnit,
     required this.carbsPerUnit,
     required this.fatPerUnit,
-  }) {
+  }) : super(name, standardQuantity) {
     id = Uuid().v4();
+
   }
 
   Food._({
     required this.id,
-    required this.name,
-    required this.standardQuantity,
+    required name,
+    required standardQuantity,
     required this.caloriesPerUnit,
     required this.proteinPerUnit,
     required this.carbsPerUnit,
     required this.fatPerUnit,
-  });
+  }) : super(name, standardQuantity);
 
   @override
   String getPortionCalories() {
@@ -58,12 +58,11 @@ class Food extends Eatable {
 
   Food.empty()
       : id = Uuid().v4(),
-        name = '',
-        standardQuantity = 0,
         caloriesPerUnit = 0,
         proteinPerUnit = 0,
         carbsPerUnit = 0,
-        fatPerUnit = 0;
+        fatPerUnit = 0,
+        super('', 0);
 
   @override
   factory Food.fromJson(Map<String, dynamic> json) {
@@ -109,13 +108,5 @@ class Food extends Eatable {
       carbsPerUnit: carbsPerUnit ?? this.carbsPerUnit,
       fatPerUnit: fatPerUnit ?? this.fatPerUnit,
     );
-  }
-
-  String get nutritionData {
-    return '${this.getPortionCalories()} kcal '
-        '| ${this.getPortionCarbs()}C '
-        '| ${this.getPortionProtein()}P '
-        '| ${this.getPortionFat()}G '
-        '• ${this.standardQuantity.toStringAsFixed(0)}g';
   }
 }

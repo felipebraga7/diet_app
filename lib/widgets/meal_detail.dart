@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import 'add_edit_meal_dialog.dart';
+import 'add_to_meal_dialog.dart';
 
 class MealDetail extends StatelessWidget {
   final Meal meal;

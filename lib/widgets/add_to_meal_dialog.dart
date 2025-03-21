@@ -1,11 +1,11 @@
-import 'package:diet_app/controller/meal_controller.dart';
+import 'package:diet_app/controller/add_to_meal_controller.dart';
+import 'package:diet_app/model/eatable.dart';
+import 'package:diet_app/model/food_group.dart';
 import 'package:diet_app/model/meal.dart';
 import 'package:diet_app/widgets/food_picker_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller/food_controller.dart';
-import '../model/food.dart';
 import '../util/utils.dart';
 
 class AddEditMealDialog extends StatelessWidget {
@@ -20,25 +20,23 @@ class AddEditMealDialog extends StatelessWidget {
     return Dialog(
       child: Padding(
         padding: EdgeInsets.all(24),
-        child: GetBuilder<FoodController>(
-            init: FoodController(),
+        child: GetBuilder<AddToMealController>(
+            init: AddToMealController(),
             builder: (c) {
-              return !c.foodsLoaded
-                  ? CircularProgressIndicator()
-                  : Column(
+              return Column(
                       spacing: 8,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            Food? selectedFood = await showDialog(
+                            Eatable? selectedEatable = await showDialog(
                               context: context,
                               builder: (context) {
-                                return FoodPickerDialog();
+                                return EatablePickerDialog();
                               },
                             );
-                            if (selectedFood != null) {
-                              c.setSelectedFood(selectedFood);
+                            if (selectedEatable != null) {
+                              c.setSelectedEatable(selectedEatable);
                             }
                           },
                           child: SizedBox(
@@ -47,7 +45,7 @@ class AddEditMealDialog extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Expanded(child:
-                                Text(c.selectedFood == null ? 'Selecione um alimento' : c.selectedFood!.name,
+                                Text(c.selectedEatable == null ? 'Selecione um alimento' : c.selectedEatable!.name,
                                   style: textTheme.labelLarge,)),
                                 IconTheme(
                                   data: IconThemeData(
@@ -68,7 +66,7 @@ class AddEditMealDialog extends StatelessWidget {
                                 style: textTheme.bodySmall,
                                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                                 decoration: InputDecoration(
-                                  labelText: 'Peso (g)',
+                                  labelText: c.selectedEatable != null && c.selectedEatable is FoodGroup ? 'Unidades' : 'Peso (g)',
                                 ),
                               ),
                             ),
@@ -77,17 +75,16 @@ class AddEditMealDialog extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            _buildNutrientColumn(context, 'Kcal.', c.selectedFood?.caloriesPerUnit ?? 0, c.weightController.text),
-                            _buildNutrientColumn(context, 'Prot.', c.selectedFood?.proteinPerUnit ?? 0, c.weightController.text),
-                            _buildNutrientColumn(context, 'Carb.', c.selectedFood?.carbsPerUnit ?? 0, c.weightController.text),
-                            _buildNutrientColumn(context, 'Gord.', c.selectedFood?.fatPerUnit ?? 0, c.weightController.text),
+                            _buildNutrientColumn(context, 'Kcal.', c.selectedEatable?.caloriesPerUnit ?? 0, c.weightController.text),
+                            _buildNutrientColumn(context, 'Prot.', c.selectedEatable?.proteinPerUnit ?? 0, c.weightController.text),
+                            _buildNutrientColumn(context, 'Carb.', c.selectedEatable?.carbsPerUnit ?? 0, c.weightController.text),
+                            _buildNutrientColumn(context, 'Gord.', c.selectedEatable?.fatPerUnit ?? 0, c.weightController.text),
                           ],
                         ),
                         ElevatedButton.icon(
                           label: Text("Adicionar"),
                           onPressed: () {
                             c.addEatEventToMeal(meal.id);
-                            Get.find<MealController>().update();
                             Navigator.of(context).pop();
                           },
                           icon: Icon(Icons.add),

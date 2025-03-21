@@ -77,7 +77,7 @@ class CreateUpdateFoodGroupPage extends StatelessWidget {
                                           Food? selectedFood = await showDialog(
                                             context: context,
                                             builder: (context) {
-                                              return FoodPickerDialog();
+                                              return EatablePickerDialog(showFoodGroups: false);
                                             },
                                           );
                                           if (selectedFood != null) {

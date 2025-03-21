@@ -2,7 +2,7 @@ import 'package:diet_app/controller/food_controller.dart';
 import 'package:diet_app/core/app_theme.dart';
 import 'package:diet_app/model/food.dart';
 import 'package:diet_app/pages/create_update_food_page.dart';
-import 'package:diet_app/widgets/food_list.dart';
+import 'package:diet_app/widgets/eatable_list.dart';
 import 'package:diet_app/widgets/search_input_field.dart';
 import 'package:diet_app/widgets/simple_divider.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class FoodPage extends StatelessWidget {
       child: Scaffold(
           body: Padding(
             padding: const EdgeInsets.only(top: 14, left: 14, right: 14),
-            child: FoodList(onFoodSelect: (selectedFood) => _navigateToUpdatePage(context, selectedFood)),
+            child: EatableList(showFoodGroups: false, onEatableSelect: (selectedEatable) => _navigateToUpdatePage(context, selectedEatable as Food)),
           ),
           floatingActionButton: GetBuilder<FoodController>(
             init: FoodController(),

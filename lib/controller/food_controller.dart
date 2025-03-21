@@ -1,4 +1,5 @@
 import 'package:diet_app/controller/meal_controller.dart';
+import 'package:diet_app/model/eatable.dart';
 import 'package:diet_app/model/food.dart';
 import 'package:diet_app/model/food_event.dart';
 import 'package:diet_app/service/food_service.dart';
@@ -11,9 +12,7 @@ class FoodController extends GetxController {
 
   final List<Food> foodList = [];
   List<Food> filteredFoodList = [];
-  Food? selectedFood;
   bool foodsLoaded = false;
-  final weightController = TextEditingController();
   final searchTextController = TextEditingController();
 
   @override
@@ -29,25 +28,6 @@ class FoodController extends GetxController {
     filteredFoodList.addAll(foodList);
     foodsLoaded = true;
     update();
-  }
-
-  void setSelectedFood(Food? food) {
-    selectedFood = food;
-    weightController.text = food != null ? food.standardQuantity.toString() : '';
-    update();
-  }
-
-  void addEatEventToMeal(String mealId) {
-    if (selectedFood != null) {
-      final weight = double.tryParse(weightController.text) ?? 0;
-      final foodEvent = EatEvent(
-        eatable: selectedFood!,
-        quantity: weight,
-      );
-      Get.put(MealController()).addFoodToMeal(mealId, foodEvent);
-    } else {
-      Get.snackbar('Erro', 'Selecione um alimento');
-    }
   }
 
   Future<void> search(String text) async {
@@ -81,7 +61,6 @@ class FoodController extends GetxController {
 
   @override
   void dispose() {
-    weightController.dispose();
     searchTextController.dispose();
     super.dispose();
   }
