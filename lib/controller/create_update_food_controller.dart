@@ -31,11 +31,11 @@ class CreateUpdateFoodController extends GetxController {
   void loadFoodData() async {
     if (food != null) {
       nameController.text = food!.name;
-      standardQuantityController.text = food!.standardQuantity.toString();
-      caloriesController.text = (food!.caloriesPerUnit*food!.standardQuantity).toString();
-      carbsController.text = (food!.carbsPerUnit*food!.standardQuantity).toString();
-      proteinController.text = (food!.proteinPerUnit*food!.standardQuantity).toString();
-      fatController.text = (food!.fatPerUnit*food!.standardQuantity).toString();
+      standardQuantityController.text = food!.standardQuantity.toStringAsFixed(2);
+      caloriesController.text = (food!.caloriesPerUnit*food!.standardQuantity).toStringAsFixed(2);
+      carbsController.text = (food!.carbsPerUnit*food!.standardQuantity).toStringAsFixed(2);
+      proteinController.text = (food!.proteinPerUnit*food!.standardQuantity).toStringAsFixed(2);
+      fatController.text = (food!.fatPerUnit*food!.standardQuantity).toStringAsFixed(2);
     }
   }
 
