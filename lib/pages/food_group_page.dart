@@ -1,10 +1,10 @@
 import 'package:diet_app/controller/food_group_controller.dart';
 import 'package:diet_app/core/app_theme.dart';
 import 'package:diet_app/model/food_group.dart';
+import 'package:diet_app/model/navigation_options_enum.dart';
 import 'package:diet_app/pages/create_update_food_group_page.dart';
+import 'package:diet_app/widgets/bottom_menu.dart';
 import 'package:diet_app/widgets/eatable_list.dart';
-import 'package:diet_app/widgets/search_input_field.dart';
-import 'package:diet_app/widgets/simple_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,6 +27,7 @@ class FoodGroupPage extends StatelessWidget {
                         child: EatableList(showFoods: false, onEatableSelect: (selectedFoodGroup) => _navigateToUpdatePage(context, c, selectedFoodGroup as FoodGroup)),
                     );
               }),
+          bottomNavigationBar: BottomMenu(NavigationOptionsEnum.foodGroups),
           floatingActionButton: GetBuilder<FoodGroupController>(
             builder: (c) {
               return FloatingActionButton(

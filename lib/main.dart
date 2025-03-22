@@ -1,5 +1,5 @@
 import 'package:diet_app/core/app_theme.dart';
-import 'package:diet_app/pages/base_page.dart';
+import 'package:diet_app/pages/diary_page.dart';
 import 'package:diet_app/service/food_group_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'Diet App',
       theme: AppTheme.light,
       darkTheme: AppTheme.light,
-      home: BasePage(),
+      home: DiaryPage(),
     );
   }
 }

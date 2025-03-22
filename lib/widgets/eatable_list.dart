@@ -1,4 +1,4 @@
-import 'package:diet_app/controller/food_picker_controller.dart';
+import 'package:diet_app/controller/eatable_list_controller.dart';
 import 'package:diet_app/model/eatable.dart';
 import 'package:diet_app/widgets/simple_divider.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,7 @@ class EatableList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
+    Get.delete<EatableListController>();
     return GetBuilder<EatableListController>(
         init: EatableListController(showFoods: showFoods, showFoodGroups: showFoodGroups),
         builder: (c) {

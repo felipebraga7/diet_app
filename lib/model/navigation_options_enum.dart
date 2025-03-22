@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 enum NavigationOptionsEnum {
   diary(formattedName: 'Diário', icon: Icons.flatware, widget: DiaryPage()),
   foods(formattedName: 'Alimentos', icon: Icons.summarize, widget: FoodPage()),
-  meals(formattedName: 'Refeições', icon: Icons.event, widget: FoodGroupPage());
+  foodGroups(formattedName: 'Grupos', icon: Icons.event, widget: FoodGroupPage());
   // menu(formattedName: 'Menu', icon: Icons.menu, widget: DiaryPage());
 
   const NavigationOptionsEnum({

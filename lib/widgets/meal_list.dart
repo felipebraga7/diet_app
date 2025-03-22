@@ -1,4 +1,3 @@
-import 'package:diet_app/controller/bottom_navigation_bar_controller.dart';
 import 'package:diet_app/controller/meal_controller.dart';
 import 'package:diet_app/widgets/meal_detail.dart';
 import 'package:diet_app/widgets/simple_divider.dart';

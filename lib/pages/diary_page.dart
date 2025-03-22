@@ -1,3 +1,5 @@
+import 'package:diet_app/model/navigation_options_enum.dart';
+import 'package:diet_app/widgets/bottom_menu.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/calendar_selector.dart';
@@ -22,6 +24,7 @@ class DiaryPage extends StatelessWidget {
                 MealList(),
               ]),
         ),
+        bottomNavigationBar: BottomMenu(NavigationOptionsEnum.diary),
       ),
     );
   }

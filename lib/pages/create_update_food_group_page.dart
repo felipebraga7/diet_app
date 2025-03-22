@@ -64,7 +64,7 @@ class CreateUpdateFoodGroupPage extends StatelessWidget {
                                   InputTextField(
                                       controller: c.nameController,
                                       requestFocus: true,
-                                      label: 'Nome do Alimento'),
+                                      label: 'Nome do Grupo'),
                                   SizedBox(height: 20),
                                   Row(
                                     mainAxisAlignment:
@@ -120,55 +120,53 @@ class CreateUpdateFoodGroupPage extends StatelessWidget {
                                     },
                                     itemBuilder: (context, index) {
                                       final fqHelper = c.selectedFoodQuantityList[index];
-                                      return Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                      return Column(
                                         children: [
-                                          Expanded(
-                                            child: ListTile(
-                                              contentPadding: EdgeInsets.zero,
-                                              leading: Icon(
-                                                  Icons.breakfast_dining,
-                                                  size: 44,
-                                                  color: Color(0xff4FD1C5)),
-                                              title: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    fqHelper.food.name,
-                                                    style:
-                                                        textTheme.titleMedium,
-                                                  ),
-                                                  const SizedBox(height: 6),
-                                                  Text(
-                                                    fqHelper.food.nutritionData,
-                                                    style: textTheme.bodySmall!.copyWith(
-                                                      fontSize: 10,
-                                                    ),
-                                                  ),
-                                                ],
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Expanded(
+                                                flex: 7,
+                                                child: Text(
+                                                  fqHelper.food.name,
+                                                  style:
+                                                  textTheme.titleSmall,
+                                                ),
                                               ),
-                                            ),
+                                              const SizedBox(width: 8),
+                                              Expanded(
+                                                flex: 3,
+                                                child: InputTextField(
+                                                    controller: fqHelper.controller,
+                                                    inputFormatters: [
+                                                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                                                    ],
+                                                    suffix: 'g',
+                                                    keyboardType: TextInputType.numberWithOptions(decimal: true)),
+                                              ),
+                                              const SizedBox(width: 8),
+                                            ],
                                           ),
-                                          const SizedBox(width: 8),
-                                          Expanded(
-                                            child: InputTextField(
-                                                controller: fqHelper.controller,
-                                                inputFormatters: [
-                                                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                                                ],
-                                                suffix: 'g',
-                                                keyboardType: TextInputType.numberWithOptions(decimal: true)),
+                                          const SizedBox(height: 8),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                fqHelper.food.nutritionData,
+                                                style: textTheme.bodySmall!.copyWith(
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                child: Icon(
+                                                  Icons.delete_forever,
+                                                  color: colorScheme.error,
+                                                  size: 20,
+                                                ),
+                                                onTap: () => c.removeFood(fqHelper),
+                                              ),
+                                            ],
                                           ),
-                                          const SizedBox(width: 8),
-                                          GestureDetector(
-                                            child: Icon(
-                                              Icons.delete_forever,
-                                              color: colorScheme.error,
-                                              size: 16,
-                                            ),
-                                            onTap: () => c.removeFood(fqHelper),
-                                          )
                                         ],
                                       );
                                     },
