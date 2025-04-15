@@ -3,8 +3,9 @@ import 'package:uuid/uuid.dart';
 import 'eatable.dart';
 
 class Food extends Eatable {
-  late final String id;
 
+  @override
+  late final String id;
   @override
   final double caloriesPerUnit;
   @override

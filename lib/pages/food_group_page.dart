@@ -13,8 +13,6 @@ class FoodGroupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return SafeArea(
       child: Scaffold(
           body: GetBuilder<FoodGroupController>(
@@ -24,41 +22,10 @@ class FoodGroupPage extends StatelessWidget {
                     ? Center(child: CircularProgressIndicator())
                     : Padding(
                         padding: const EdgeInsets.only(top: 14, left: 14, right: 14),
-                        child: EatableList(showFoods: false, onEatableSelect: (selectedFoodGroup) => _navigateToUpdatePage(context, c, selectedFoodGroup as FoodGroup)),
+                        child: EatableList(showFoods: false),
                     );
               }),
           bottomNavigationBar: BottomMenu(NavigationOptionsEnum.foodGroups),
-          floatingActionButton: GetBuilder<FoodGroupController>(
-            builder: (c) {
-              return FloatingActionButton(
-                onPressed: () => _navigateToUpdatePage(context, c, null),
-                tooltip: 'Adicionar',
-                backgroundColor: colorScheme.primary,
-                child: Icon(Icons.add),
-              );
-            }
-          )),
-    );
-  }
-
-  _navigateToUpdatePage(BuildContext context, FoodGroupController c, FoodGroup? foodGroup) {
-    final colorScheme = Theme.of(context).colorScheme;
-    Get.to(() => CreateUpdateFoodGroupPage(foodGroup: foodGroup),)?.then((result) {
-      if (result == null) return;
-      if (result['action'] == 'delete') {
-        c.deleteFoodGroup(result['food']);
-      } else if (result['action'] == 'save') {
-        c.saveFoodGroup(result['food']);
-        Get.snackbar(
-          'Sucesso!',
-          'Grupo salvo com sucesso!',
-          duration: Duration(seconds: 3),
-          backgroundColor: colorScheme.success,
-          backgroundGradient: RadialGradient(
-            colors: [colorScheme.successGradientEnd, colorScheme.successGradientStart],
-          ),
-        );
-      }
-    });
+    ));
   }
 }

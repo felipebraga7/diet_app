@@ -4,6 +4,8 @@ import 'package:uuid/uuid.dart';
 import 'eatable.dart';
 
 class FoodGroup extends Eatable {
+
+  @override
   late final String id;
   List<FoodQuantity> foodQuantityList;
 

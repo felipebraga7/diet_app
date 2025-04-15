@@ -12,7 +12,7 @@ import '../util/utils.dart';
 class CreateUpdateFoodGroupPage extends StatelessWidget {
   final FoodGroup? foodGroup;
 
-  const CreateUpdateFoodGroupPage({required this.foodGroup, super.key});
+  const CreateUpdateFoodGroupPage({this.foodGroup, super.key});
 
   @override
   Widget build(BuildContext context) {

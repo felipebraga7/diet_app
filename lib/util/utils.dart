@@ -15,11 +15,11 @@ class Utils {
   }
 
   static bool contains(String a, String b) {
-    return replaceDiacritics(a.toLowerCase()).contains(replaceDiacritics(b.toLowerCase()));
+    return replaceDiacritics(a).toLowerCase().contains(replaceDiacritics(b).toLowerCase());
   }
 
   static int compareTo(String a, String b) {
-    return replaceDiacritics(a.toLowerCase()).compareTo(replaceDiacritics(b.toLowerCase()));
+    return replaceDiacritics(a).toLowerCase().compareTo(replaceDiacritics(b).toLowerCase());
   }
 
   static double round(double value, int places) {

@@ -26,7 +26,7 @@ abstract class Eatable {
       case 'foodGroup':
         return FoodGroup.fromJson(json);
       default:
-        throw ArgumentError('tipo inválido de Eatable: ' + json['type']);
+        throw ArgumentError('tipo inválido de Eatable: ${json['type']}');
     }
   }
 
@@ -45,4 +45,14 @@ abstract class Eatable {
   double get carbsPerUnit;
 
   double get fatPerUnit;
+
+  String get id {
+    if (this is Food) {
+      return (this as Food).id;
+    } else if (this is FoodGroup) {
+      return (this as FoodGroup).id;
+    } else {
+      throw ArgumentError('tipo inválido de Eatable: ${this.runtimeType}');
+    }
+  }
 }

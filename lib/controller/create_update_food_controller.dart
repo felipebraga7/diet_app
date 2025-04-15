@@ -1,10 +1,7 @@
-import 'dart:convert';
-import 'package:diet_app/controller/food_controller.dart';
 import 'package:diet_app/model/food.dart';
 import 'package:diet_app/util/utils.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateUpdateFoodController extends GetxController {
   Food? food;

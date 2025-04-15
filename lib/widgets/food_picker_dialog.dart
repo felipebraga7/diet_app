@@ -10,7 +10,6 @@ class EatablePickerDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(MediaQuery.of(context).size.width.toString());
     return Dialog(
       child: Padding(
         padding: EdgeInsets.all(8),
