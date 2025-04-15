@@ -106,7 +106,7 @@ class MealController extends GetxController {
     userMealConfigurationList.add(UserMealConfiguration(
       mealCategory: MealCategoryEnum.almoco,
       mealTime: DateTime(1970, 1, 1, 12, 0),
-      calGoal: 600,
+      calGoal: 700,
       carbsGoal: 200,
       proteinGoal: 300,
       fatGoal: 100,
@@ -114,7 +114,7 @@ class MealController extends GetxController {
     userMealConfigurationList.add(UserMealConfiguration(
       mealCategory: MealCategoryEnum.lancheDaTarde,
       mealTime: DateTime(1970, 1, 1, 16, 0),
-      calGoal: 200,
+      calGoal: 400,
       carbsGoal: 200,
       proteinGoal: 300,
       fatGoal: 100,
@@ -130,7 +130,7 @@ class MealController extends GetxController {
     userMealConfigurationList.add(UserMealConfiguration(
       mealCategory: MealCategoryEnum.ceia,
       mealTime: DateTime(1970, 1, 1, 22, 0),
-      calGoal: 150,
+      calGoal: 200,
       carbsGoal: 200,
       proteinGoal: 300,
       fatGoal: 100,

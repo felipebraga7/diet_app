@@ -58,9 +58,9 @@ class MealSummary extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       _buildMacroSummary(context, 'Carb.', _getTotalCarbs(c.mealList), 200),
-                       _buildMacroSummary(context, 'Proteína', _getTotalProtein(c.mealList), 200),
-                       _buildMacroSummary(context, 'Gordura', _getTotalFat(c.mealList), 200)
+                       _buildMacroSummary(context, 'Carb.', _getTotalCarbs(c.mealList), 300),
+                       _buildMacroSummary(context, 'Proteína', _getTotalProtein(c.mealList), 190),
+                       _buildMacroSummary(context, 'Gordura', _getTotalFat(c.mealList), 60)
                     ],
                   ),
                 ),
