@@ -135,22 +135,6 @@ class MealController extends GetxController {
       proteinGoal: 300,
       fatGoal: 100,
     ));
-    userMealConfigurationList.add(UserMealConfiguration(
-      mealCategory: MealCategoryEnum.ceia,
-      mealTime: DateTime(1970, 1, 1, 22, 0),
-      calGoal: 150,
-      carbsGoal: 200,
-      proteinGoal: 300,
-      fatGoal: 100,
-    ));
-    userMealConfigurationList.add(UserMealConfiguration(
-      mealCategory: MealCategoryEnum.ceia,
-      mealTime: DateTime(1970, 1, 1, 22, 0),
-      calGoal: 150,
-      carbsGoal: 200,
-      proteinGoal: 300,
-      fatGoal: 100,
-    ));
     return MealConfiguration(userMealConfigurationList: userMealConfigurationList);
   }
 
@@ -159,5 +143,14 @@ class MealController extends GetxController {
     meal.eatEventList.add(foodEvent);
     _saveMeals(meal.dateTime);
     update();
+  }
+
+  void updateMeal(Meal updatedMeal) async {
+    final index = mealList.indexWhere((meal) => meal.id == updatedMeal.id);
+    if (index != -1) {
+      mealList[index] = updatedMeal;
+      await _saveMeals(updatedMeal.dateTime);
+      update();
+    }
   }
 }

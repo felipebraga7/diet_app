@@ -19,7 +19,7 @@ class CalendarController extends GetxController {
     for (DateTime date = startDate; date.isBefore(startDate.add(Duration(days: 7))); date = date.add(Duration(days: 1))) {
       weekDates.add(date);
     }
-    selectDate(weekDates.indexOf(date));
+    selectedDayIndex = weekDates.indexOf(date);
   }
 
   void selectDate(int index) {

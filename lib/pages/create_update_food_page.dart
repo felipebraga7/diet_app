@@ -3,8 +3,8 @@ import 'package:diet_app/core/app_theme.dart';
 import 'package:diet_app/model/food.dart';
 import 'package:diet_app/widgets/input_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import '../util/utils.dart';
 
 class CreateUpdateFoodPage extends StatelessWidget {
   final Food? food;
@@ -61,7 +61,7 @@ class CreateUpdateFoodPage extends StatelessWidget {
                                   InputTextField(
                                       controller: c.standardQuantityController,
                                       keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),],
+                                      inputFormatters: [Utils.decimalInputFormatter()],
                                       suffix: 'g',
                                       label: 'Porção padrão do alimento'),
                                   SizedBox(height: 20),
@@ -196,9 +196,7 @@ class CreateUpdateFoodPage extends StatelessWidget {
         Expanded(
             child: InputTextField(
                 controller: controller,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                ],
+                inputFormatters: [Utils.decimalInputFormatter()],
                 suffix: unit,
                 keyboardType: TextInputType.numberWithOptions(decimal: true))),
       ],

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 
 class Utils {
   static String formatNumber(double number) {
@@ -25,5 +25,10 @@ class Utils {
   static double round(double value, int places) {
     String str = value.toStringAsFixed(places);
     return double.parse(str);
+  }
+
+  static TextInputFormatter decimalInputFormatter({int decimalRange = 2}) {
+    final pattern = r'^\d*\.?\d{0,' + decimalRange.toString() + r'}';
+    return FilteringTextInputFormatter.allow(RegExp(pattern));
   }
 }

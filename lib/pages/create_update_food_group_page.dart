@@ -5,8 +5,9 @@ import 'package:diet_app/model/food_group.dart';
 import 'package:diet_app/widgets/food_picker_dialog.dart';
 import 'package:diet_app/widgets/input_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import '../util/utils.dart';
+
 
 class CreateUpdateFoodGroupPage extends StatelessWidget {
   final FoodGroup? foodGroup;
@@ -138,9 +139,7 @@ class CreateUpdateFoodGroupPage extends StatelessWidget {
                                                 flex: 3,
                                                 child: InputTextField(
                                                     controller: fqHelper.controller,
-                                                    inputFormatters: [
-                                                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                                                    ],
+                                                    inputFormatters: [Utils.decimalInputFormatter()],
                                                     suffix: 'g',
                                                     keyboardType: TextInputType.numberWithOptions(decimal: true)),
                                               ),

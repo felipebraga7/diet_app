@@ -5,7 +5,7 @@ import 'eatable.dart';
 class EatEvent {
   late final String id;
   final Eatable eatable;
-  final double quantity;
+  double quantity;
 
   EatEvent({
     required this.eatable,
