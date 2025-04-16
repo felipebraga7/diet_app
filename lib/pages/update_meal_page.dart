@@ -11,6 +11,8 @@ class UpdateMealPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -75,10 +77,52 @@ class UpdateMealPage extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 12),
                                     IconButton(
-                                      icon: Icon(Icons.delete_forever_rounded, color: Colors.red),
+                                      icon: Icon(Icons.delete_forever_rounded, color: colorScheme.error),
                                       onPressed: () {
-                                        meal.eatEventList.remove(eatEvent);
-                                        c.update();
+                                        showDialog(
+                                          context: context,
+                                          builder: (ctx) => AlertDialog(
+                                            title: Text(
+                                                'Remover Alimento',
+                                                style: textTheme.titleMedium!
+                                            ),
+                                            content: Text(
+                                                'Tem certeza que deseja remover este alimento da refeição?',
+                                                style: textTheme.titleMedium!.copyWith(fontWeight: FontWeight.normal)
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                style: TextButton.styleFrom(
+                                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                  minimumSize: Size(0, 0),
+                                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                ),
+                                                child: Text(
+                                                  'Cancelar',
+                                                  style: textTheme.titleMedium!.copyWith(color: colorScheme.surface)
+                                                ),
+                                                onPressed: () => Navigator.of(ctx).pop(),
+                                              ),
+                                              TextButton(
+                                                style: TextButton.styleFrom(
+                                                  backgroundColor: Colors.red,
+                                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                  minimumSize: Size(0, 0),
+                                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                ),
+                                                child: Text(
+                                                    'Remover',
+                                                    style: textTheme.titleMedium!.copyWith(color: colorScheme.surface)
+                                                ),
+                                                onPressed: () {
+                                                  meal.eatEventList.remove(eatEvent);
+                                                  c.update();
+                                                  Navigator.of(ctx).pop();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        );
                                       },
                                     ),
                                   ],
