@@ -28,34 +28,40 @@ class EatableList extends StatelessWidget {
                     SearchInputField(hint: 'Procure por um alimento', onText: (text) => c.search(text)),
                     SizedBox(height: 10),
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: c.filteredEatableList.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    c.filteredEatableList[index].name,
-                                    style: textTheme.titleSmall,
-                                  ),
-                                  Text(
-                                    c.filteredEatableList[index].nutritionData,
-                                    style: textTheme.labelMedium,
-                                  ),
-                                  SimpleDivider()
-                                ],
-                              ),
-                              onTap: () {
-                                if (onEatableSelect != null) {
-                                  onEatableSelect!(c.filteredEatableList[index]);
-                                } else {
-                                  c.onEatableSelect(c.filteredEatableList[index]);
-                                }
-                              });
-                        },
-                      ),
+                      child: Scrollbar(
+                        thumbVisibility: true,
+                        thickness: 8,
+                        radius: const Radius.circular(8),
+                        interactive: true,
+                        child: ListView.builder(
+                          itemCount: c.filteredEatableList.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      c.filteredEatableList[index].name,
+                                      style: textTheme.titleSmall,
+                                    ),
+                                    Text(
+                                      c.filteredEatableList[index].nutritionData,
+                                      style: textTheme.labelMedium,
+                                    ),
+                                    SimpleDivider()
+                                  ],
+                                ),
+                                onTap: () {
+                                  if (onEatableSelect != null) {
+                                    onEatableSelect!(c.filteredEatableList[index]);
+                                  } else {
+                                    c.onEatableSelect(c.filteredEatableList[index]);
+                                  }
+                                });
+                          },
+                        ),
+                      )
                     )
                   ]),
                   floatingActionButton: FloatingActionButton(
